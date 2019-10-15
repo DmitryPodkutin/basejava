@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private  Resume[] storage = new Resume[10000];
     private int size = 0;
 
     public void clear() {
@@ -67,7 +67,7 @@ public class ArrayStorage {
         return size;
     }
 
-    int indexOfArray(String uuid) {
+     private int indexOfArray(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
