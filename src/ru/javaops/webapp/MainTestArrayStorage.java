@@ -1,6 +1,7 @@
-package ru.javaops.webapp.storage;
+package ru.javaops.webapp;
 
 import ru.javaops.webapp.model.Resume;
+import ru.javaops.webapp.storage.ArrayStorage;
 
 /**
  * Test for your ru.javaops.webapp.storage.ArrayStorage implementation
@@ -17,7 +18,6 @@ public class MainTestArrayStorage {
         r3.setUuid("uuid3");
         Resume r4 = new Resume();
         r4.setUuid("dummy");
-
 
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
