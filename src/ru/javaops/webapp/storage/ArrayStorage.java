@@ -27,13 +27,13 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
-        if (indexOf(resume.getUuid()) == -1) {
-            storage[size] = resume;
-            size++;
-        } else if (size >= storage.length) {
+        if(indexOf(resume.getUuid()) > -1) {
+            System.out.println("Resume " + resume.getUuid() + " can't be saved because it already exists");
+        } else if(size >= storage.length) {
             System.out.println("Storage is full");
         } else {
-            System.out.println("Resume " + resume.getUuid() + " can't be save because it already exist");
+            storage[size] = resume;
+            size++;
         }
     }
 
