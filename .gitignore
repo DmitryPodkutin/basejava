@@ -2,6 +2,9 @@
 out
 *.iml
 log
-
-
-
+.gitignore
+*.md
+/Users/Dmitry/Documents/JavaLessons/basejava/src/Mix4.java
+/Users/Dmitry/Documents/JavaLessons/basejava/src/Mix4.class
+/Users/Dmitry/Documents/JavaLessons/basejava/src/Resume.class
+lesson
