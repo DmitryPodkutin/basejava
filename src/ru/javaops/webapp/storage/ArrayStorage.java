@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private  Resume[] storage = new Resume[10_000];
+    private Resume[] storage = new Resume[10_000];
     private int size = 0;
 
     public void clear() {
@@ -27,9 +27,9 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
-        if(indexOf(resume.getUuid()) > -1) {
+        if (indexOf(resume.getUuid()) > -1) {
             System.out.println("Resume " + resume.getUuid() + " can't be saved because it already exists");
-        } else if(size >= storage.length) {
+        } else if (size >= storage.length) {
             System.out.println("Storage is full");
         } else {
             storage[size] = resume;
@@ -41,8 +41,8 @@ public class ArrayStorage {
         if (indexOf(uuid) > -1) {
             return storage[indexOf(uuid)];
         }
-            System.out.println("Resume " + uuid + " can't be get because it doesn't exist");
-            return null;
+        System.out.println("Resume " + uuid + " can't be get because it doesn't exist");
+        return null;
     }
 
     public void delete(String uuid) {
@@ -50,6 +50,7 @@ public class ArrayStorage {
         if (index > -1) {
             System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
             size--;
+            storage[size] = null;
         } else {
             System.out.println("Resume " + uuid + " can't be deleted because it doesn't exist");
         }
@@ -59,14 +60,14 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
+        return Arrays.copyOf(storage, size + 2);
     }
 
     public int size() {
         return size;
     }
 
-     private int indexOf(String uuid) {
+    private int indexOf(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
