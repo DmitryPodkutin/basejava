@@ -1,6 +1,6 @@
-package ru.javaops.webapp.storage;
+package ru.javawebinar.basejava.storage;
 
-import ru.javaops.webapp.model.Resume;
+import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
 
@@ -17,17 +17,17 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        int index = indexOf(resume.getUuid());
-        if (index > -1) {
-            storage[index] = resume;
-        } else {
+        int index = getIndex(resume.getUuid());
+        if (index == -1) {
             System.out.println("Resume " + resume.getUuid() + " can't be update because it already exist");
+        } else {
+            storage[index] = resume;
         }
 
     }
 
     public void save(Resume resume) {
-        if (indexOf(resume.getUuid()) > -1) {
+        if (getIndex(resume.getUuid()) != -1) {
             System.out.println("Resume " + resume.getUuid() + " can't be saved because it already exists");
         } else if (size >= storage.length) {
             System.out.println("Storage is full");
@@ -38,36 +38,33 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        if (indexOf(uuid) > -1) {
-            return storage[indexOf(uuid)];
+        if (getIndex(uuid) == -1) {
+            System.out.println("Resume " + uuid + " can't be get because it doesn't exist");
+            return null;
         }
-        System.out.println("Resume " + uuid + " can't be get because it doesn't exist");
-        return null;
+        return storage[getIndex(uuid)];
     }
 
     public void delete(String uuid) {
-        int index = indexOf(uuid);
-        if (index > -1) {
+        int index = getIndex(uuid);
+        if (index == -1) {
+            System.out.println("Resume " + uuid + " can't be deleted because it doesn't exist");
+        } else {
             System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
             size--;
             storage[size] = null;
-        } else {
-            System.out.println("Resume " + uuid + " can't be deleted because it doesn't exist");
         }
     }
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
     public Resume[] getAll() {
-        return Arrays.copyOf(storage, size + 2);
+        return Arrays.copyOf(storage, size);
     }
 
     public int size() {
         return size;
     }
 
-    private int indexOf(String uuid) {
+    private int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
