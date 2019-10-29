@@ -2,29 +2,29 @@ package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.Resume;
 
-import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 
 public class MainReflection {
 
-    public static void main(String[] args) throws IllegalAccessException {
-        Resume r = new Resume();
-        MainReflection mr = new MainReflection();
-        mr.reflectionToString(r);
-
-
-    }
-
-    // TODO : invoke r.toString via reflection
-    public void reflectionToString(Object object) throws IllegalAccessException {
-        Class clazz = object.getClass();
-        Field[] fields = clazz.getDeclaredFields();
-        System.out.print(clazz.getSimpleName() + " { ");
-        for (Field field : fields) {
-            field.setAccessible(true);
-            System.out.print(field.getName() + ":" + field.get(object) + ", ");
+    public static void main(String[] args) {
+        Resume resume = new Resume();
+        Class<? extends Resume> resumeClass = resume.getClass();
+        Method metod = null;
+        try {
+            metod = resumeClass.getMethod("toString");
+        } catch (NoSuchMethodException ex) {
+            ex.printStackTrace();
         }
-        System.out.println("}");
+        try {
+            Object result = metod.invoke(resume);
+            System.out.println(result);
+        } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 }
 
