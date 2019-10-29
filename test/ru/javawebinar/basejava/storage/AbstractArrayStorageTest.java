@@ -8,6 +8,9 @@ import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 public abstract class AbstractArrayStorageTest {
     private Storage storage;
 
@@ -52,7 +55,7 @@ public abstract class AbstractArrayStorageTest {
                 storage.save(new Resume());
             }
         } catch (StorageException ex) {
-            Assert.fail();
+            fail();
         }
         storage.save(new Resume());
     }
@@ -79,8 +82,9 @@ public abstract class AbstractArrayStorageTest {
     public void update() throws Exception {
         Resume resumeForUpdate = new Resume(UUID_1);
         storage.update(resumeForUpdate);
-        Assert.assertTrue(resumeForUpdate == storage.get(UUID_1));
+        assertEquals(resumeForUpdate, storage.get(UUID_1));
     }
+
 
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() throws Exception {
@@ -94,9 +98,7 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void get() throws Exception {
-        storage.get(UUID_1);
         storage.get(UUID_2);
-        storage.get(UUID_3);
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -106,14 +108,13 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() throws Exception {
-        Resume[] resumes = storage.getAll();
-        Assert.assertEquals(resumes[0], resume1);
-        Assert.assertEquals(resumes[1], resume2);
-        Assert.assertEquals(resumes[2], resume3);
+        Resume[] resumeExpecteds = storage.getAll();
+        Resume[] resumeActuals = new Resume[]{resume1, resume2, resume3};
+        Assert.assertArrayEquals(resumeExpecteds, resumeActuals);
     }
 
     private void checkSize(int expectedSize) {
-        Assert.assertEquals(expectedSize, storage.size());
+        assertEquals(expectedSize, storage.size());
     }
 
 }
