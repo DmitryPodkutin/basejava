@@ -108,9 +108,9 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() throws Exception {
-        Resume[] resumeExpecteds = storage.getAll();
-        Resume[] resumeActuals = new Resume[]{resume1, resume2, resume3};
-        Assert.assertArrayEquals(resumeExpecteds, resumeActuals);
+        Resume[] resumeActuals= storage.getAll();
+        Resume[] resumeExpected = {resume1, resume2, resume3};
+        Assert.assertArrayEquals(resumeExpected, resumeActuals);
     }
 
     private void checkSize(int expectedSize) {
