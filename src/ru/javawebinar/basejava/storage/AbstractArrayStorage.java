@@ -10,11 +10,12 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_LIMIT = 10_000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
+    @Override
     public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index >= 0) {
@@ -39,11 +40,13 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
+    @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
+    @Override
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index < 0) {
@@ -53,10 +56,12 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public Resume get(String uuid) {
         if (getIndex(uuid) < 0) {
             throw new NotExistStorageException(uuid);
@@ -64,11 +69,10 @@ public abstract class AbstractArrayStorage implements Storage {
         return storage[getIndex(uuid)];
     }
 
+    @Override
     public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
     }
-
-    protected abstract int getIndex(String uuid);
 
     protected abstract void insertElement(Resume resume, int index);
 
