@@ -15,11 +15,11 @@ public abstract class AbstractStorage implements Storage {
 
     abstract public void delete(String uuid);
 
+    abstract public Resume[] getAll();
+
     abstract public int size();
 
     abstract int getIndex(String uuid);
-
-    abstract public Resume[] getAll();
 
 }
 

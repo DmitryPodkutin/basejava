@@ -16,31 +16,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected int size = 0;
 
     @Override
-    public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index >= 0) {
-            throw new ExistStorageException(resume.getUuid());
-        } else if (size == storage.length) {
-            throw new StorageException("Storage is full", resume.getUuid());
-
-        } else {
-            insertElement(resume, index);
-            size++;
-        }
-    }
-
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            fillDeletedElement(index);
-            size--;
-            storage[size] = null;
-        }
-    }
-
-    @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
@@ -57,8 +32,17 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public int size() {
-        return size;
+    public void save(Resume resume) {
+        int index = getIndex(resume.getUuid());
+        if (index >= 0) {
+            throw new ExistStorageException(resume.getUuid());
+        } else if (size == storage.length) {
+            throw new StorageException("Storage is full", resume.getUuid());
+
+        } else {
+            insertElement(resume, index);
+            size++;
+        }
     }
 
     @Override
@@ -69,9 +53,25 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return storage[getIndex(uuid)];
     }
 
+    public void delete(String uuid) {
+        int index = getIndex(uuid);
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
+        } else {
+            fillDeletedElement(index);
+            size--;
+            storage[size] = null;
+        }
+    }
+
     @Override
     public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
+    }
+
+    @Override
+    public int size() {
+        return size;
     }
 
     protected abstract void insertElement(Resume resume, int index);
