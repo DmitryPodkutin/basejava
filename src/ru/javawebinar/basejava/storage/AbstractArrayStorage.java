@@ -1,7 +1,5 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
-import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
@@ -22,19 +20,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void doUpdate(Resume resume) {
-        int index = getIndex(resume.getUuid());
+    public void doUpdate(int index, Resume resume) {
         storage[index] = resume;
     }
 
     @Override
-    public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index >= 0) {
-            throw new ExistStorageException(resume.getUuid());
-        } else if (size == storage.length) {
+    public void doSave(int index, Resume resume) {
+        if (size == storage.length) {
             throw new StorageException("Storage is full", resume.getUuid());
-
         } else {
             insertElement(resume, index);
             size++;
@@ -42,19 +35,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume doGet(String uuid) {
-        return storage[getIndex(uuid)];
+    public Resume doGet(int index) {
+        return storage[index];
     }
 
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            fillDeletedElement(index);
-            size--;
-            storage[size] = null;
-        }
+    public void doDelete(int index, String uuid) {
+        fillDeletedElement(index);
+        size--;
+        storage[size] = null;
     }
 
     @Override

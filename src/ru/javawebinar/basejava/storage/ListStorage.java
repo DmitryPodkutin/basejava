@@ -1,14 +1,12 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
-import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    private  List<Resume> list = new ArrayList<>();
+    private List<Resume> list = new ArrayList<>();
 
     @Override
     public void clear() {
@@ -16,38 +14,28 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public void doUpdate(Resume resume) {
-        int index = getIndex(resume.getUuid());
+    public void doUpdate(int index, Resume resume) {
         list.set(index, resume);
     }
 
     @Override
-    public void save(Resume resume) {
-        if (getIndex(resume.getUuid()) >= 0) {
-            throw new ExistStorageException(resume.getUuid());
-        }
+    public void doSave(int index, Resume resume) {
         list.add(resume);
     }
 
     @Override
-    public Resume doGet(String uuid) {
-        return list.get(getIndex(uuid));
+    public Resume doGet(int index) {
+        return list.get(index);
     }
 
     @Override
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            list.remove(index);
-        }
-
+    public void doDelete(int index, String uuid) {
+        list.remove(index);
     }
 
     @Override
     public Resume[] getAll() {
-       return list.toArray(new Resume[list.size()]);
+        return list.toArray(new Resume[list.size()]);
     }
 
     @Override
