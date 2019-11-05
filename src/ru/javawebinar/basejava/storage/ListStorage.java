@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    private static List<Resume> list = new ArrayList<>();
+    private  List<Resume> list = new ArrayList<>();
 
     @Override
     public void clear() {
@@ -47,8 +47,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        Resume storage[] = list.toArray(new Resume[list.size()]);
-        return storage;
+       return list.toArray(new Resume[list.size()]);
     }
 
     @Override
