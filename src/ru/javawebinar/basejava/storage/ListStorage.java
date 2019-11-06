@@ -29,7 +29,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public void doDelete(int index, String uuid) {
+    public void doDelete(int index) {
         list.remove(index);
     }
 

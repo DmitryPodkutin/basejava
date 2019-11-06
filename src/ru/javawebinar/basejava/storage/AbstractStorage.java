@@ -14,7 +14,7 @@ public abstract class AbstractStorage implements Storage {
 
     abstract public Resume doGet(int index);
 
-    abstract public void doDelete(int index, String uuid);
+    abstract public void doDelete(int index);
 
     abstract public Resume[] getAll();
 
@@ -53,7 +53,7 @@ public abstract class AbstractStorage implements Storage {
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         } else {
-            doDelete(index, uuid);
+            doDelete(index);
         }
     }
 

@@ -39,7 +39,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return storage[index];
     }
 
-    public void doDelete(int index, String uuid) {
+    public void doDelete(int index) {
         fillDeletedElement(index);
         size--;
         storage[size] = null;
