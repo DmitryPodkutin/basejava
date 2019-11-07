@@ -8,10 +8,11 @@ import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import java.util.Arrays;
 
-public abstract class AbstractArrayStorageTest {
+import static org.junit.Assert.assertEquals;
+
+public abstract class AbstractStorageTest {
     private Storage storage;
 
     private static final String UUID_1 = "uuid1";
@@ -23,8 +24,7 @@ public abstract class AbstractArrayStorageTest {
     private Resume resume3 = new Resume(UUID_3);
     private Resume resume4 = new Resume(UUID_4);
 
-
-    protected AbstractArrayStorageTest(Storage storage) {
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -48,14 +48,14 @@ public abstract class AbstractArrayStorageTest {
         storage.save(resume2);
     }
 
-    @Test(expected = StorageException.class)
+     @Test(expected = StorageException.class)
     public void saveOverflow() throws Exception {
         try {
             for (int i = 4; i <= AbstractArrayStorage.STORAGE_LIMIT; i++) {
                 storage.save(new Resume());
             }
         } catch (StorageException ex) {
-            fail();
+            Assert.fail();
         }
         storage.save(new Resume());
     }
@@ -85,7 +85,6 @@ public abstract class AbstractArrayStorageTest {
         assertEquals(resumeForUpdate, storage.get(UUID_1));
     }
 
-
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() throws Exception {
         storage.update(storage.get("dummy"));
@@ -109,6 +108,7 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void getAll() throws Exception {
         Resume[] resumeActuals= storage.getAll();
+        Arrays.sort(resumeActuals);
         Resume[] resumeExpected = {resume1, resume2, resume3};
         Assert.assertArrayEquals(resumeExpected, resumeActuals);
     }
