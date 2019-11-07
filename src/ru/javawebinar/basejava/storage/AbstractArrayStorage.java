@@ -20,12 +20,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void doUpdate(int index, Resume resume) {
+    public void doUpdate(int index, Resume resume, String uuid) {
         storage[index] = resume;
     }
 
     @Override
-    public void doSave(int index, Resume resume) {
+    public void doSave(int index, Resume resume, String uuid) {
         if (size == storage.length) {
             throw new StorageException("Storage is full", resume.getUuid());
         } else {
@@ -35,11 +35,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume doGet(int index) {
+    public Resume doGet(int index, String uuid) {
         return storage[index];
     }
 
-    public void doDelete(int index) {
+    public void doDelete(int index, String uuid) {
         fillDeletedElement(index);
         size--;
         storage[size] = null;
