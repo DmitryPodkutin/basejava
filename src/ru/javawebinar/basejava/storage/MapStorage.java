@@ -10,12 +10,12 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected String getIndex(String uuid) {
-        for (Resume value : hashMap.values()) {
-            if (value.getUuid().equals(uuid)) {
+        for (String key : hashMap.keySet()) {
+            if (key.equals(uuid)) {
                 return null;
             }
         }
-        return uuid;
+         return  uuid;
     }
 
     @Override
@@ -46,7 +46,6 @@ public class MapStorage extends AbstractStorage {
     @Override
     public void doDelete(Object index) {
         hashMap.remove(index);
-
     }
 
     @Override
