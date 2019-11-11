@@ -15,14 +15,14 @@ import static org.junit.Assert.assertEquals;
 public abstract class AbstractStorageTest {
     public static Storage storage;
 
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
-    private static final String UUID_4 = "uuidForTest";
-    private Resume resume1 = new Resume(UUID_1);
-    private Resume resume2 = new Resume(UUID_2);
-    private Resume resume3 = new Resume(UUID_3);
-    private Resume resume4 = new Resume(UUID_4);
+    protected static final String UUID_1 = "uuid1";
+    protected static final String UUID_2 = "uuid2";
+    protected static final String UUID_3 = "uuid3";
+    protected static final String UUID_4 = "uuidForTest";
+    protected Resume resume1 = new Resume(UUID_1);
+    protected Resume resume2 = new Resume(UUID_2);
+    protected Resume resume3 = new Resume(UUID_3);
+    protected Resume resume4 = new Resume(UUID_4);
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -62,9 +62,9 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void delete() throws Exception {
-        storage.delete(UUID_1);
+        storage.delete(resume1.getUuid());
         checkSize(2);
-        storage.get(UUID_1);
+        storage.get(UUID_4);
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -113,7 +113,7 @@ public abstract class AbstractStorageTest {
         Assert.assertArrayEquals(resumeExpected, resumeActuals);
     }
 
-    private void checkSize(int expectedSize) {
+    void checkSize(int expectedSize) {
         assertEquals(expectedSize, storage.size());
     }
 
