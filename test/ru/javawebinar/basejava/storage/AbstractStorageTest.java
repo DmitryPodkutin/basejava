@@ -13,7 +13,7 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
-    private Storage storage;
+    public static Storage storage;
 
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -48,7 +48,7 @@ public abstract class AbstractStorageTest {
         storage.save(resume2);
     }
 
-     @Test(expected = StorageException.class)
+    @Test(expected = StorageException.class)
     public void saveOverflow() throws Exception {
         try {
             for (int i = 4; i <= AbstractArrayStorage.STORAGE_LIMIT; i++) {
@@ -62,9 +62,9 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void delete() throws Exception {
-        storage.delete(UUID_2);
+        storage.delete(UUID_1);
         checkSize(2);
-        storage.get(UUID_2);
+        storage.get(UUID_1);
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -107,7 +107,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAll() throws Exception {
-        Resume[] resumeActuals= storage.getAll();
+        Resume[] resumeActuals = storage.getAll();
         Arrays.sort(resumeActuals);
         Resume[] resumeExpected = {resume1, resume2, resume3};
         Assert.assertArrayEquals(resumeExpected, resumeActuals);
