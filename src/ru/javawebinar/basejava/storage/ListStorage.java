@@ -45,8 +45,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public void doDelete(Object index) {
-        int idx = (Integer) index;
-        list.remove(idx);
+        list.remove(((Integer) index).intValue());
     }
 
     @Override
