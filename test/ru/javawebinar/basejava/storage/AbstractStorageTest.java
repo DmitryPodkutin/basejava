@@ -60,11 +60,11 @@ public abstract class AbstractStorageTest {
         storage.save(new Resume());
     }
 
-    @Test(expected = NotExistStorageException.class)
+     @Test(expected = NotExistStorageException.class)
     public void delete() throws Exception {
-        storage.delete(resume1.getUuid());
+        storage.delete(UUID_1);
         checkSize(2);
-        storage.get(UUID_4);
+        storage.get(UUID_1);
     }
 
     @Test(expected = NotExistStorageException.class)
