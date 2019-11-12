@@ -14,7 +14,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected int size = 0;
 
     @Override
-    protected boolean keyExist(Object key) {
+    protected boolean keyNotExist(Object key) {
         return (Integer) key < 0;
     }
 
@@ -31,7 +31,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     public void doSave(Object searchKey, Resume resume) {
-        if (size == storage.length) {
+        if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage is full", resume.getUuid());
         } else {
             insertElement(resume, (Integer) searchKey);
