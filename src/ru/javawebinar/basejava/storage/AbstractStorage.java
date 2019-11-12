@@ -8,24 +8,24 @@ public abstract class AbstractStorage implements Storage {
 
     public abstract void clear();
 
-    abstract public void doUpdate(Object index, Resume resume);
+    abstract public void doUpdate(Object searchKey, Resume resume);
 
-    abstract public void doSave(Object index, Resume resume);
+    abstract public void doSave(Object searchKey, Resume resume);
 
-    abstract public Resume doGet(Object index);
+    abstract public Resume doGet(Object searchKey);
 
-    abstract public void doDelete(Object index);
+    abstract public void doDelete(Object searchKey);
 
     abstract public Resume[] getAll();
 
     abstract public int size();
 
-    abstract Object getIndex(String uuid);
+    abstract Object getSearchKey(String uuid);
 
-    protected abstract boolean checkKey(Object key);
+    protected abstract boolean keyExist(Object key);
 
     public void update(Resume resume) {
-        doUpdate(checkNoteExist(resume.getUuid()), resume);
+        doUpdate(checkNotExist(resume.getUuid()), resume);
 
     }
 
@@ -34,26 +34,26 @@ public abstract class AbstractStorage implements Storage {
     }
 
     public Resume get(String uuid) {
-        return doGet(checkNoteExist(uuid));
+        return doGet(checkNotExist(uuid));
 
     }
 
     public void delete(String uuid) {
-        doDelete(checkNoteExist(uuid));
+        doDelete(checkNotExist(uuid));
     }
 
     public Object checkExist(String uuid) {
-        Object key = getIndex(uuid);
-        if (!checkKey(key)) {
+        Object key = getSearchKey(uuid);
+        if (!keyExist(key)) {
             throw new ExistStorageException(uuid);
         } else {
             return key;
         }
     }
 
-    public Object checkNoteExist(String uuid) {
-        Object key = getIndex(uuid);
-        if (checkKey(key)) {
+    public Object checkNotExist(String uuid) {
+        Object key = getSearchKey(uuid);
+        if (keyExist(key)) {
             throw new NotExistStorageException(uuid);
         } else {
             return key;

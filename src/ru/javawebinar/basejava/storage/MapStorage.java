@@ -6,57 +6,57 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
-    private static Map<String, Resume> hashMap = new HashMap<>();
+    private  Map<String, Resume> mapStorage = new HashMap<>();
 
     @Override
-    protected String getIndex(String uuid) {
-        for (String key : hashMap.keySet()) {
-            if (key.equals(uuid)) {
-                return null;
-            }
-        }
+    protected String getSearchKey(String uuid) {
          return  uuid;
     }
 
     @Override
-    protected boolean checkKey(Object key) {
-        return key != null;
+    protected boolean keyExist(Object key) {
+                for (String mapkey : mapStorage.keySet()) {
+            if (mapkey.equals(key)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public void clear() {
-        hashMap.clear();
+        mapStorage.clear();
     }
 
     @Override
-    public void doUpdate(Object index, Resume resume) {
-        hashMap.put((String) index, resume);
+    public void doUpdate(Object searchKey, Resume resume) {
+        mapStorage.put((String) searchKey, resume);
     }
 
     @Override
-    public void doSave(Object index, Resume resume) {
-        hashMap.put((String) index, resume);
+    public void doSave(Object searchKey, Resume resume) {
+        mapStorage.put((String) searchKey, resume);
     }
 
     @Override
-    public Resume doGet(Object index) {
-        return hashMap.get(index);
+    public Resume doGet(Object searchKey) {
+        return mapStorage.get(searchKey);
     }
 
     @Override
-    public void doDelete(Object index) {
-        hashMap.remove(index);
+    public void doDelete(Object searchKey) {
+        mapStorage.remove(searchKey);
     }
 
     @Override
     public Resume[] getAll() {
-        return hashMap.values().toArray(new Resume[0]);
+        return mapStorage.values().toArray(new Resume[0]);
 
     }
 
     @Override
     public int size() {
-        return hashMap.size();
+        return mapStorage.size();
     }
 }
 
