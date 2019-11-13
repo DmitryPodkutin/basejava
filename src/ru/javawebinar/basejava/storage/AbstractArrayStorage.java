@@ -14,8 +14,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected int size = 0;
 
     @Override
-    protected boolean keyNotExist(Object key) {
-        return (Integer) key < 0;
+    protected boolean keyNotExist(Object searhKey) {
+        return (Integer) searhKey < 0;
     }
 
     @Override

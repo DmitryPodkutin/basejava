@@ -19,8 +19,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean keyNotExist(Object key) {
-        return (Integer) key < 0;
+    protected boolean keyNotExist(Object searhKey) {
+        return (Integer) searhKey < 0;
     }
 
     @Override
