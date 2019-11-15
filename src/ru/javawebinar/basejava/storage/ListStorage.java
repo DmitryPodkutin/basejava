@@ -15,12 +15,12 @@ public class ListStorage extends AbstractStorage {
                 return i;
             }
         }
-        return -1;
+        return null;
     }
 
     @Override
-    protected boolean keyNotExist(Object searhKey) {
-        return (Integer) searhKey < 0;
+    protected boolean isExist(Object searhKey) {
+        return searhKey != null;
     }
 
     @Override

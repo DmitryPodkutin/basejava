@@ -13,8 +13,8 @@ public class MapStorage extends AbstractStorage {
         return uuid;
     }
 
-    protected boolean keyNotExist(Object searhKey) {
-        return (!mapStorage.containsKey(searhKey));
+    protected boolean isExist(Object searhKey) {
+        return (mapStorage.containsKey(searhKey));
     }
 
     @Override
