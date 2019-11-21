@@ -5,10 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
-import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
-
-import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
@@ -48,19 +45,8 @@ public abstract class AbstractStorageTest {
         storage.save(resume2);
     }
 
-    @Test(expected = StorageException.class)
-    public void saveOverflow() throws Exception {
-        try {
-            for (int i = 4; i <= AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
-            }
-        } catch (StorageException ex) {
-            Assert.fail();
-        }
-        storage.save(new Resume());
-    }
 
-     @Test(expected = NotExistStorageException.class)
+    @Test(expected = NotExistStorageException.class)
     public void delete() throws Exception {
         storage.delete(UUID_1);
         checkSize(2);
@@ -108,7 +94,6 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAll() throws Exception {
         Resume[] resumeActuals = storage.getAll();
-        Arrays.sort(resumeActuals);
         Resume[] resumeExpected = {resume1, resume2, resume3};
         Assert.assertArrayEquals(resumeExpected, resumeActuals);
     }
