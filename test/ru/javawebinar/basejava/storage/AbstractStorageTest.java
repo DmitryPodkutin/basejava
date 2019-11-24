@@ -7,6 +7,9 @@ import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
@@ -16,10 +19,10 @@ public abstract class AbstractStorageTest {
     protected static final String UUID_2 = "uuid2";
     protected static final String UUID_3 = "uuid3";
     protected static final String UUID_4 = "uuidForTest";
-    protected Resume resume1 = new Resume(UUID_1);
-    protected Resume resume2 = new Resume(UUID_2);
-    protected Resume resume3 = new Resume(UUID_3);
-    protected Resume resume4 = new Resume(UUID_4);
+    protected Resume resume1 = new Resume(UUID_1,"Vasi");
+    protected Resume resume2 = new Resume(UUID_2,"Pety");
+    protected Resume resume3 = new Resume(UUID_3,"Anya");
+    protected Resume resume4 = new Resume(UUID_4,"Bity");
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -28,8 +31,8 @@ public abstract class AbstractStorageTest {
     @Before
     public void setUp() throws Exception {
         storage.clear();
-        storage.save(resume1);
         storage.save(resume2);
+        storage.save(resume1);
         storage.save(resume3);
     }
 
@@ -93,9 +96,13 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAll() throws Exception {
-        Resume[] resumeActuals = storage.getAll();
-        Resume[] resumeExpected = {resume1, resume2, resume3};
-        Assert.assertArrayEquals(resumeExpected, resumeActuals);
+        List<Resume> resumeActuals = storage.getAllSorted();
+        List<Resume> resumeExpected = new ArrayList();
+        resumeExpected.add(resume1);
+        resumeExpected.add(resume2);
+        resumeExpected.add(resume3);
+        Assert.assertTrue(resumeActuals.equals(resumeExpected));
+        System.out.println(resumeActuals);
     }
 
     void checkSize(int expectedSize) {
