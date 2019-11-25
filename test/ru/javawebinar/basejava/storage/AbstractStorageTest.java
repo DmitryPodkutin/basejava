@@ -102,7 +102,6 @@ public abstract class AbstractStorageTest {
         resumeExpected.add(resume2);
         resumeExpected.add(resume3);
         Assert.assertTrue(resumeActuals.equals(resumeExpected));
-        System.out.println(resumeActuals);
     }
 
     void checkSize(int expectedSize) {
