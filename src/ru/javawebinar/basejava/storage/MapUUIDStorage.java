@@ -2,17 +2,16 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
-public class MapStorage extends AbstractStorage {
+public class MapUUIDStorage extends AbstractStorage {
     private Map<String, Resume> mapStorage = new TreeMap<>();
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected String getSearchKey(String uuid) {
         return uuid;
     }
 
@@ -46,8 +45,8 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> list = mapStorage.values().stream().filter(Objects::nonNull).collect(Collectors.toList());
+    public List<Resume> getListStorage() {
+        ArrayList<Resume> list = new ArrayList<>(mapStorage.values());
         return list;
     }
 
