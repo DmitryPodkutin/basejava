@@ -40,6 +40,12 @@ public abstract class AbstractStorage implements Storage {
 
     }
 
+    public List<Resume> getAllSorted() {
+        List<Resume> list = getListStorage();
+        list.sort(Comparator.comparing(Resume::getUuid).thenComparing(Resume::getFulName));
+        return list;
+    }
+
     public void delete(String uuid) {
         Object searchKey = getExistSearchKey(uuid);
         doDelete(searchKey);
@@ -63,13 +69,6 @@ public abstract class AbstractStorage implements Storage {
         }
 
     }
-
-     public List<Resume> getAllSorted() {
-        List<Resume> list = getListStorage();
-        list.sort(Comparator.comparing(Resume::getUuid).thenComparing(Resume::getFulName));
-        return list;
-    }
-
 
 }
 
