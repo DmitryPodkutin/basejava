@@ -13,16 +13,16 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
-    public Storage storage;
+    final Storage storage;
 
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";
-    private Resume resume1 = new Resume(UUID_1, "Ivan");
-    private Resume resume2 = new Resume(UUID_2, "Anrey");
-    private Resume resume3 = new Resume(UUID_3, "Dima");
-    private Resume resume4 = new Resume(UUID_4, "Anton");
+    private final Resume resume1 = new Resume(UUID_1, "Ivan");
+    private final Resume resume2 = new Resume(UUID_2, "Anrey");
+    private final Resume resume3 = new Resume(UUID_3, "Dima");
+    private final Resume resume4 = new Resume(UUID_4, "Anton");
 
     AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -40,7 +40,7 @@ public abstract class AbstractStorageTest {
     public void save() throws Exception {
         storage.save(resume4);
         checkSize(4);
-        storage.get("uuid4");
+        storage.get(UUID_4);
     }
 
     @Test(expected = ExistStorageException.class)
@@ -100,7 +100,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAllSorted() throws Exception {
         List<Resume> resumeActual = storage.getAllSorted();
-        ArrayList resumeExpected = new ArrayList();
+        ArrayList<Resume> resumeExpected = new ArrayList<>();
         resumeExpected.add(resume1);
         resumeExpected.add(resume2);
         resumeExpected.add(resume3);
