@@ -9,19 +9,15 @@ public class Resume implements Comparable<Resume> {
 
     // Unique identifier
     private final String uuid;
-    String fulName;
+    private String fulName;
+
+    public Resume(String fulName) {
+        this(UUID.randomUUID().toString(), fulName);
+    }
 
     public Resume(String uuid, String fulName) {
         this.uuid = uuid;
         this.fulName = fulName;
-    }
-
-    public Resume() {
-        this(UUID.randomUUID().toString());
-    }
-
-    public Resume(String uuid) {
-        this.uuid = uuid;
     }
 
     public String getUuid() {
@@ -55,10 +51,6 @@ public class Resume implements Comparable<Resume> {
     @Override
     public int compareTo(Resume o) {
         int tmp = fulName.compareTo(o.getFulName());
-        if (tmp == 0) {
-            return uuid.compareTo(o.getUuid());
-        } else {
-            return tmp;
-        }
+        return tmp != 0 ? tmp : uuid.compareTo(o.getUuid());  //<если истина> ? <return выражени 1>:<иначе return выражение2>
     }
 }
