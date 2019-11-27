@@ -9,19 +9,19 @@ import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
 
-    abstract public void doUpdate(Object searchKey, Resume resume);
+    protected abstract void doUpdate(Object searchKey, Resume resume);
 
-    abstract public void doSave(Object searchKey, Resume resume);
+    protected abstract void doSave(Object searchKey, Resume resume);
 
-    abstract public Resume doGet(Object searchKey);
+    protected abstract Resume doGet(Object searchKey);
 
-    abstract public void doDelete(Object searchKey);
+    protected abstract void doDelete(Object searchKey);
 
     abstract Object getSearchKey(String uuid);
 
-    protected abstract boolean isExist(Object searhKey);
+    protected abstract boolean isExist(Object searchKey);
 
-    public abstract List<Resume> getListStorage();
+    protected abstract List<Resume> getListStorage();
 
     public void update(Resume resume) {
         Object searchKey = getExistSearchKey(resume.getUuid());
@@ -46,11 +46,11 @@ public abstract class AbstractStorage implements Storage {
     }
 
     private Object getExistSearchKey(String uuid) {
-        Object searhKey = getSearchKey(uuid);
-        if (!isExist(searhKey)) {
+        Object searchKey = getSearchKey(uuid);
+        if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
         } else {
-            return searhKey;
+            return searchKey;
         }
     }
 
@@ -64,9 +64,9 @@ public abstract class AbstractStorage implements Storage {
 
     }
 
-    public List<Resume> getAllSorted() {
+     public List<Resume> getAllSorted() {
         List<Resume> list = getListStorage();
-        list.sort(Comparator.comparing(Resume::getUuid));
+        list.sort(Comparator.comparing(Resume::getUuid).thenComparing(Resume::getFulName));
         return list;
     }
 

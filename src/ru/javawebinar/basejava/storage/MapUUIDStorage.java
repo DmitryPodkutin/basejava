@@ -8,15 +8,15 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class MapUUIDStorage extends AbstractStorage {
-    private Map<String, Resume> mapStorage = new TreeMap<>();
+    private final Map<String, Resume> mapStorage = new TreeMap<>();
 
     @Override
     protected String getSearchKey(String uuid) {
         return uuid;
     }
 
-    protected boolean isExist(Object searhKey) {
-        return (mapStorage.containsKey(searhKey));
+    protected boolean isExist(Object searchKey) {
+        return (mapStorage.containsKey(searchKey));
     }
 
     @Override
@@ -46,8 +46,7 @@ public class MapUUIDStorage extends AbstractStorage {
 
     @Override
     public List<Resume> getListStorage() {
-        ArrayList<Resume> list = new ArrayList<>(mapStorage.values());
-        return list;
+        return new ArrayList<>(mapStorage.values());
     }
 
     @Override
