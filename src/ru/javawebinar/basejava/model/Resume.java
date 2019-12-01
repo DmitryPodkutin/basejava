@@ -9,7 +9,7 @@ public class Resume implements Comparable<Resume> {
 
     // Unique identifier
     private final String uuid;
-    private String fulName;
+    private final String fulName;
 
     public Resume(String fulName) {
         this(UUID.randomUUID().toString(), fulName);

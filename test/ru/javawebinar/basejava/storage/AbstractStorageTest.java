@@ -7,7 +7,7 @@ import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -19,10 +19,10 @@ public abstract class AbstractStorageTest {
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";
-    private final Resume resume1 = new Resume(UUID_1, "Ivan");
-    private final Resume resume2 = new Resume(UUID_2, "Anrey");
-    private final Resume resume3 = new Resume(UUID_3, "Dima");
-    private final Resume resume4 = new Resume(UUID_4, "Anton");
+    private final Resume RESUME_1 = new Resume(UUID_1, "Ivan");
+    private final Resume RESUME_2 = new Resume(UUID_2, "Anrey");
+    private final Resume RESUME_3 = new Resume(UUID_3, "Dima");
+    private final Resume RESUME_4 = new Resume(UUID_4, "Anton");
 
     AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -31,21 +31,21 @@ public abstract class AbstractStorageTest {
     @Before
     public void setUp() throws Exception {
         storage.clear();
-        storage.save(resume2);
-        storage.save(resume1);
-        storage.save(resume3);
+        storage.save(RESUME_2);
+        storage.save(RESUME_1);
+        storage.save(RESUME_3);
     }
 
     @Test
     public void save() throws Exception {
-        storage.save(resume4);
+        storage.save(RESUME_4);
         checkSize(4);
         storage.get(UUID_4);
     }
 
     @Test(expected = ExistStorageException.class)
     public void saveAlreadyExist() throws Exception {
-        storage.save(resume2);
+        storage.save(RESUME_2);
     }
 
 
@@ -100,10 +100,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAllSorted() throws Exception {
         List<Resume> resumeActual = storage.getAllSorted();
-        ArrayList<Resume> resumeExpected = new ArrayList<>();
-        resumeExpected.add(resume1);
-        resumeExpected.add(resume2);
-        resumeExpected.add(resume3);
+        List<Resume>  resumeExpected = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
         assertEquals(3, resumeActual.size());
         Assert.assertEquals(resumeExpected, resumeActual);
     }
