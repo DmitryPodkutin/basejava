@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     static final int STORAGE_LIMIT = 10_000;
     final Resume[] storage = new Resume[STORAGE_LIMIT];
-     int size = 0;
+    int size = 0;
 
     @Override
-    protected boolean isExist(Object searchKey) {
-        return (Integer) searchKey >= 0;
+    protected boolean isExist(Integer searchKey) {
+        return searchKey >= 0;
     }
 
     @Override
@@ -27,27 +27,27 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void doUpdate(Object searchKey, Resume resume) {
-        storage[(Integer) searchKey] = resume;
+    public void doUpdate(Integer searchKey, Resume resume) {
+        storage[searchKey] = resume;
     }
 
     @Override
-    public void doSave(Object searchKey, Resume resume) {
+    public void doSave(Integer searchKey, Resume resume) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage is full", resume.getUuid());
         } else {
-            insertElement(resume, (Integer) searchKey);
+            insertElement(resume, searchKey);
             size++;
         }
     }
 
     @Override
-    public Resume doGet(Object searchKey) {
-        return storage[(Integer) searchKey];
+    public Resume doGet(Integer searchKey) {
+        return storage[searchKey];
     }
 
-    public void doDelete(Object searchKey) {
-        fillDeletedElement((Integer) searchKey);
+    public void doDelete(Integer searchKey) {
+        fillDeletedElement(searchKey);
         size--;
         storage[size] = null;
     }

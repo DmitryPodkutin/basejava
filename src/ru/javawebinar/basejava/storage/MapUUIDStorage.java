@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class MapUUIDStorage extends AbstractStorage {
+public class MapUUIDStorage extends AbstractStorage<String> {
     private final Map<String, Resume> mapStorage = new TreeMap<>();
 
     @Override
@@ -15,7 +15,7 @@ public class MapUUIDStorage extends AbstractStorage {
         return uuid;
     }
 
-    protected boolean isExist(Object searchKey) {
+    protected boolean isExist(String searchKey) {
         return (mapStorage.containsKey(searchKey));
     }
 
@@ -25,22 +25,22 @@ public class MapUUIDStorage extends AbstractStorage {
     }
 
     @Override
-    public void doUpdate(Object searchKey, Resume resume) {
-        mapStorage.put((String) searchKey, resume);
+    public void doUpdate(String searchKey, Resume resume) {
+        mapStorage.put(searchKey, resume);
     }
 
     @Override
-    public void doSave(Object searchKey, Resume resume) {
-        mapStorage.put((String) searchKey, resume);
+    public void doSave(String searchKey, Resume resume) {
+        mapStorage.put(searchKey, resume);
     }
 
     @Override
-    public Resume doGet(Object searchKey) {
+    public Resume doGet(String searchKey) {
         return mapStorage.get(searchKey);
     }
 
     @Override
-    public void doDelete(Object searchKey) {
+    public void doDelete(String searchKey) {
         mapStorage.remove(searchKey);
     }
 
