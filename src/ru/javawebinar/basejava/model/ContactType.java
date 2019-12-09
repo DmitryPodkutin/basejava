@@ -7,7 +7,7 @@ public enum ContactType {
     LINKED_IN("Профиль LinkedIn"),
     GIT_HUB("Профиль GitHub"),
     STACKOVER_FLOW("Профиль Stackoverflow"),
-    HOME_PAGE("Профиль Stackoverflow");
+    HOME_PAGE("Домашняя страница");
 
     private final String title;
 
