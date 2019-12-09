@@ -2,14 +2,14 @@ package ru.javawebinar.basejava.model;
 
 
 public enum SectionType {
-    PERSONAL("Личные качества"),
     OBJECTIVE("Позиция"),
+    PERSONAL("Личные качества"),
     ACHIEVEMENT("Достижения"),
     QUALIFICATIONS("Квалификация"),
     EXPERIENCE("Опыт работы"),
     EDUCATION("Образование");
 
-    private String title;
+    private final String title;
 
     SectionType(String title) {
         this.title = title;
@@ -17,5 +17,12 @@ public enum SectionType {
 
     public String getTitle() {
         return title;
+    }
+
+    @Override
+    public String toString() {
+        return "SectionType{" +
+                "title='" + title + '\'' +
+                '}';
     }
 }

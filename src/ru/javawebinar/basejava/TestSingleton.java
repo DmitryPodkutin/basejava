@@ -1,6 +1,7 @@
 package ru.javawebinar.basejava;
 
 
+import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.model.SectionType;
 
 public class TestSingleton {
@@ -24,9 +25,15 @@ public class TestSingleton {
         for (SectionType type : SectionType.values()) {
             System.out.println(type.getTitle());
         }
+
+        Resume resume = new Resume("Dima");
+        resume.getContacts();
     }
 
     public enum Singleton {
         INSTANCE
     }
+
+
+
 }
