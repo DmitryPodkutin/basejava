@@ -9,27 +9,27 @@ public class Resume implements Comparable<Resume> {
 
     // Unique identifier
     private final String uuid;
-    private final String fulName;
+    private final String fullName;
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
-    public Resume(String fulName) {
-        this(UUID.randomUUID().toString(), fulName);
+    public Resume(String fullName) {
+        this(UUID.randomUUID().toString(), fullName);
     }
 
-    public Resume(String uuid, String fulName) {
+    public Resume(String uuid, String fullName) {
         Objects.requireNonNull(uuid, "uuid must not be null");
-        Objects.requireNonNull(fulName, "fulName must not be null");
+        Objects.requireNonNull(fullName, "fulName must not be null");
         this.uuid = uuid;
-        this.fulName = fulName;
+        this.fullName = fullName;
     }
 
     public String getUuid() {
         return uuid;
     }
 
-    public String getFulName() {
-        return fulName;
+    public String getFullName() {
+        return fullName;
     }
 
 
@@ -41,6 +41,14 @@ public class Resume implements Comparable<Resume> {
         return sections;
     }
 
+    public String getContacts(ContactType key) {
+        return contacts.get(key);
+    }
+
+    public Section getSections(SectionType key) {
+        return sections.get(key);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,24 +57,24 @@ public class Resume implements Comparable<Resume> {
         Resume resume = (Resume) o;
 
         if (!uuid.equals(resume.uuid)) return false;
-        return fulName.equals(resume.fulName);
+        return fullName.equals(resume.fullName);
     }
 
     @Override
     public int hashCode() {
         int result = uuid.hashCode();
-        result = 31 * result + fulName.hashCode();
+        result = 31 * result + fullName.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return uuid + " " + fulName;
+        return uuid + " " + fullName;
     }
 
     @Override
     public int compareTo(Resume o) {
-        int tmp = fulName.compareTo(o.getFulName());
+        int tmp = fullName.compareTo(o.getFullName());
         return tmp != 0 ? tmp : uuid.compareTo(o.getUuid());  //<если истина> ? <return выражени 1>:<иначе return выражение2>
     }
 }
