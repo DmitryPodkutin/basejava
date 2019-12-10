@@ -18,14 +18,14 @@ public class OrganizationSection extends Section {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof OrganizationSection)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         OrganizationSection that = (OrganizationSection) o;
-        return Objects.equals(getOrganizations(), that.getOrganizations());
+        return Objects.equals(organizations, that.organizations);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getOrganizations());
+        return Objects.hash(organizations);
     }
 
     @Override

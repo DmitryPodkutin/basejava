@@ -40,18 +40,18 @@ public class Organization {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Organization)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
         return title.equals(that.title) &&
-                getTitleLink().equals(that.getTitleLink()) &&
-                getBeginDate().equals(that.getBeginDate()) &&
-                getEndDate().equals(that.getEndDate()) &&
-                getDescription().equals(that.getDescription());
+                titleLink.equals(that.titleLink) &&
+                beginDate.equals(that.beginDate) &&
+                endDate.equals(that.endDate) &&
+                description.equals(that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, getTitleLink(), getBeginDate(), getEndDate(), getDescription());
+        return Objects.hash(title, titleLink, beginDate, endDate, description);
     }
 
     @Override
