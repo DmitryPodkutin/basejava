@@ -49,7 +49,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     public List<Resume> getAllSorted() {
         LOG.info("getAllSorted ");
         List<Resume> list = getListStorage();
-        list.sort(Comparator.comparing(Resume::getUuid).thenComparing(Resume::getFulName));
+        list.sort(Comparator.comparing(Resume::getUuid).thenComparing(Resume::getFullName));
         return list;
     }
 

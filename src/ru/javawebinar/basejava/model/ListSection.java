@@ -4,34 +4,34 @@ import java.util.List;
 import java.util.Objects;
 
 public class ListSection extends Section {
-    private final List<String> description;
+    private final List<String> items;
 
     public ListSection(List<String> description) {
         Objects.requireNonNull(description, "description must not be null");
-        this.description = description;
+        this.items = description;
     }
 
     public List<String> getDescription() {
-        return description;
+        return items;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ListSection)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         ListSection that = (ListSection) o;
-        return getDescription().equals(that.getDescription());
+        return items.equals(that.items);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getDescription());
+        return Objects.hash(items);
     }
 
     @Override
     public String toString() {
-        return "SrctionList{" +
-                "discription=" + description +
+        return "SectionList{" +
+                "description=" + items +
                 '}';
     }
 }
