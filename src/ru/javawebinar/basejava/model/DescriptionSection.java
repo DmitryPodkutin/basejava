@@ -24,13 +24,13 @@ public class DescriptionSection extends Section {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DescriptionSection)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         DescriptionSection that = (DescriptionSection) o;
-        return getDescription().equals(that.getDescription());
+        return description.equals(that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getDescription());
+        return Objects.hash(description);
     }
 }
