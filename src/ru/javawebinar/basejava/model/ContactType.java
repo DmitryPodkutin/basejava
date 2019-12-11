@@ -19,11 +19,4 @@ public enum ContactType {
         return title;
     }
 
-    @Override
-    public String toString() {
-        return "\nContaсts{" +
-                "title='" + title + '\'' +
-                '}';
-    }
-
 }
