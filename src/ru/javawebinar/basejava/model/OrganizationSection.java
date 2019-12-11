@@ -31,7 +31,7 @@ public class OrganizationSection extends Section {
     @Override
     public String toString() {
         return "OrganizationSection{" +
-                "OrganizationSection=" + organizations +
+                "organizations=" + organizations +
                 '}';
     }
 }
