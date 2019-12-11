@@ -30,8 +30,8 @@ public class OrganizationSection extends Section {
 
     @Override
     public String toString() {
-        return "ListExperienceAndEducation{" +
-                "ListExperienceAndEducation=" + organizations +
+        return "OrganizationSection{" +
+                "OrganizationSection=" + organizations +
                 '}';
     }
 }
