@@ -6,12 +6,12 @@ import java.util.Objects;
 public class ListSection extends Section {
     private final List<String> items;
 
-    public ListSection(List<String> description) {
-        Objects.requireNonNull(description, "description must not be null");
-        this.items = description;
+    public ListSection(List<String> items) {
+        Objects.requireNonNull(items, "items must not be null");
+        this.items = items;
     }
 
-    public List<String> getDescription() {
+    public List<String> getItems() {
         return items;
     }
 
@@ -31,7 +31,7 @@ public class ListSection extends Section {
     @Override
     public String toString() {
         return "ListSection{" +
-                "description=" + items +
+                "items=" + items +
                 '}';
     }
 }

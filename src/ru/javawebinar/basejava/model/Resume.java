@@ -32,7 +32,6 @@ public class Resume implements Comparable<Resume> {
         return fullName;
     }
 
-
     public Map<ContactType, String> getContacts() {
         return contacts;
     }
@@ -41,11 +40,11 @@ public class Resume implements Comparable<Resume> {
         return sections;
     }
 
-    public String getContacts(ContactType key) {
+    public String getContact(ContactType key) {
         return contacts.get(key);
     }
 
-    public Section getSections(SectionType key) {
+    public Section getSection(SectionType key) {
         return sections.get(key);
     }
 
