@@ -43,7 +43,7 @@ public class ResumeTestData {
                         "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). " +
                                 "Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO"),
                 new Organization(
-                        "RIT Center", " ",
+                        "RIT Center", null,
                         LocalDate.of(2012, 4, 1)
                         , LocalDate.of(2014, 10, 1),
                         "Java архитектор",
