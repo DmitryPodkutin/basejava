@@ -47,13 +47,15 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected Resume doGet(File file) {
+    public Resume doGet(File file) {
         return doRead(file);
     }
 
     @Override
     protected void doDelete(File file) {
-        file.delete();
+        if (file.delete()) {
+            throw new StorageException("File not delete ", file.getName());
+        }
     }
 
     @Override
@@ -68,14 +70,21 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> getListStorage() {
-        return new ArrayList<Resume>();
+        File[] files = directory.listFiles();
+        List<Resume> list = new ArrayList<>();
+        for (File fl : Objects.requireNonNull(files)) {
+            list.add(doGet(fl));
+        }
+        return list;
     }
 
     @Override
     public void clear() {
         for (File myFile : Objects.requireNonNull(directory.listFiles())) {
             if (myFile.isFile()) {
-                myFile.delete();
+                if (myFile.delete()) {
+                    throw new StorageException("File not delete ", myFile.getName());
+                }
             }
         }
     }
