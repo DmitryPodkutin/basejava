@@ -1,48 +1,26 @@
 package ru.javawebinar.basejava.model;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class Organization {
-    private final String title;
-    private final String titleLink;
-    private final LocalDate beginDate;
-    private final LocalDate endDate;
-    private final String position;
-    private final String description;
+    private final Link homepage;
+    private final List<Position> positions;
 
-
-    public Organization(String title, String titleLink, LocalDate beginDate, LocalDate endDate, String position, String description) {
-        Objects.requireNonNull(title, "title must not be null");
-        Objects.requireNonNull(beginDate, "beginDate must not be null");
-        Objects.requireNonNull(endDate, "endDate must not be null");
-        Objects.requireNonNull(position, "position must not be null");
-        this.title = title;
-        this.titleLink = titleLink;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
-        this.description = description;
-        this.position = position;
+    public Organization(String name, String url, Position... position) {
+        this(new Link(name, url), Arrays.asList(position));
     }
 
-    public Organization(String title, String titleLink, LocalDate beginDate, LocalDate endDate, String position) {
-        this(title, titleLink, beginDate, endDate, position, null);
+    public Organization(String name, Position... position) {
+        this(name, null, position);
     }
 
-    public String getTitleLink() {
-        return titleLink;
-    }
-
-    public LocalDate getBeginDate() {
-        return beginDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public String getDescription() {
-        return description;
+    public Organization(Link homepage, List<Position> positions) {
+        this.homepage = homepage;
+        this.positions = positions;
     }
 
     @Override
@@ -50,27 +28,84 @@ public class Organization {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
-        return Objects.equals(title, that.title) &&
-                Objects.equals(titleLink, that.title) &&
-                Objects.equals(beginDate, that.beginDate) &&
-                Objects.equals(endDate, that.endDate) &&
-                Objects.equals(position, that.position) &&
-                Objects.equals(description, that.description);
+        return homepage.equals(that.homepage) &&
+                positions.equals(that.positions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, titleLink, beginDate, endDate, position, description);
+        return Objects.hash(homepage, positions);
     }
 
     @Override
     public String toString() {
-        return "\ntitle= " + title + '\'' + "\n" +
-                "titleLink='" + titleLink + '\'' + "\n" +
-                "beginDate=" + beginDate + "\n" +
-                "endDate=" + endDate + "\n" +
-                "position=" + position + "\n" +
-                "description='" + description + '\'' +
+        return "Organization{" +
+                "homepage=" + homepage +
+                ", positions=" + positions +
                 '}';
     }
+
+    public static class Position {
+        private final LocalDate beginDate;
+        private final LocalDate endDate;
+        private final String position;
+        private final String description;
+
+        public Position(LocalDate beginDate, LocalDate endDate, String position, String description) {
+            Objects.requireNonNull(beginDate, "beginDate must not be null");
+            Objects.requireNonNull(endDate, "endDate must not be null");
+            Objects.requireNonNull(position, "position must not be null");
+            this.beginDate = beginDate;
+            this.endDate = endDate;
+            this.position = position;
+            this.description = description;
+        }
+
+        public Position(LocalDate beginDate, LocalDate endDate, String position) {
+            this(beginDate, endDate, position, null);
+        }
+
+        public LocalDate getBeginDate() {
+            return beginDate;
+        }
+
+        public LocalDate getEndDate() {
+            return endDate;
+        }
+
+        public String getPosition() {
+            return position;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        @Override
+        public String toString() {
+            return "Position{" +
+                    "beginDate=" + beginDate +
+                    ", endDate=" + endDate +
+                    ", position='" + position + '\'' +
+                    ", description='" + description + '\'' +
+                    '}';
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Position position1 = (Position) o;
+            return beginDate.equals(position1.beginDate) &&
+                    endDate.equals(position1.endDate) &&
+                    position.equals(position1.position) &&
+                    description.equals(position1.description);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(beginDate, endDate, position, description);
+        }
+    }
 }
+

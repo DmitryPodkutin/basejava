@@ -28,51 +28,48 @@ public class ResumeTestData {
                 "JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2",
                 "Version control: Subversion, Git, Mercury, ClearCase, Perforce",
                 "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle")));
-        resume.getSections().put(SectionType.EXPERIENCE, new OrganizationSection(Arrays.asList(
-                new Organization(
-                        "Java Online Projects", "http://javaops.ru/",
-                        LocalDate.of(2013, 10, 1)
-                        , LocalDate.now(),
-                        "Автор проекта.",
-                        "Создание, организация и проведение Java онлайн проектов и стажировок."),
-                new Organization(
-                        "Wrike", "https://www.wrike.com/",
-                        LocalDate.of(2011, 10, 1)
-                        , LocalDate.of(2016, 1, 1),
-                        "Старший разработчик (backend)",
-                        "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). " +
-                                "Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO"),
-                new Organization(
-                        "RIT Center", null,
-                        LocalDate.of(2012, 4, 1)
-                        , LocalDate.of(2014, 10, 1),
-                        "Java архитектор",
-                        "Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), " +
-                                "миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. " +
-                                "Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). " +
-                                "Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, " +
-                                "Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python")
-        )));
-        resume.getSections().put(SectionType.EDUCATION, new OrganizationSection(Arrays.asList(
-                new Organization(
-                        "Coursera",
-                        "https://www.coursera.org/course/progfun",
-                        LocalDate.of(2013, 3, 1),
-                        LocalDate.ofYearDay(2013, 5),
-                        "\"Functional Programming Principles in Scala\" by Martin Odersky"),
-                new Organization(
-                        "Luxoft",
-                        "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
-                        LocalDate.of(2011, 3, 1),
-                        LocalDate.of(2011, 4, 1),
-                        "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML."),
-                new Organization(
-                        "Siemens AG",
-                        "http://www.siemens.ru/",
-                        LocalDate.of(2005, 1, 1),
-                        LocalDate.of(2005, 4, 1),
-                        "3 месяца обучения мобильным IN сетям (Берлин)")
-        )));
+        resume.getSections().put(SectionType.EXPERIENCE,
+                new OrganizationSection(
+                        new Organization("Java Online Projects", "http://javaops.ru/",
+                                new Organization.Position(LocalDate.of(2013, 10, 1),
+                                        LocalDate.now(),
+                                        "Автор проекта.",
+                                        "Создание, организация и проведение Java онлайн проектов и стажировок.")),
+                        new Organization("Wrike", "https://www.wrike.com/",
+                                new Organization.Position(LocalDate.of(2011, 10, 1),
+                                        LocalDate.of(2016, 1, 1),
+                                        "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike " +
+                                        "(Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). " +
+                                        "Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")),
+                        new Organization("RIT Center",
+                                new Organization.Position(LocalDate.of(2012, 4, 1),
+                                        LocalDate.of(2014, 10, 1),
+                                        "Java архитектор", "Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), \" +\n" +
+                                        "миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. \" +\n" +
+                                        "Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). \" +\n" +
+                                        "Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, \" +\n" +
+                                        "Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python"))
+                ));
+
+        resume.getSections().put(SectionType.EDUCATION,
+                new OrganizationSection(
+                        new Organization("Coursera", "https://www.coursera.org/course/progfun",
+                                new Organization.Position(LocalDate.now(),
+                                        LocalDate.now(),
+                                        "Functional Programming Principles in Scala\" by Martin Odersky")),
+                        new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
+                                new Organization.Position(LocalDate.now(),
+                                        LocalDate.now(),
+                                        "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"")),
+                        new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
+                                "http://www.ifmo.ru/",
+                                new Organization.Position(LocalDate.now(),
+                                        LocalDate.now(),
+                                        "Аспирантура (программист С, С++)"),
+                                new Organization.Position(LocalDate.now(),
+                                        LocalDate.now(),
+                                        "Инженер (программист Fortran, C)"))
+                ));
         resume.getContacts().forEach((k, v) -> System.out.println(k.getTitle() + "  : " + v));
         System.out.println();
         resume.getSections().forEach((k, v) -> System.out.println("key : " + k.getTitle() + "\n" + "value : " + v));
