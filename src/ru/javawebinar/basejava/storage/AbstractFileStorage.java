@@ -93,7 +93,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     public int size() {
         int i = 0;
         for (File fl : Objects.requireNonNull(directory.listFiles())) {
-            if (fl.isFile()) {
+            if (fl.isFile() & !fl.isHidden()) {
                 i++;
             }
         }
