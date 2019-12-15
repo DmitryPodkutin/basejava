@@ -1,6 +1,7 @@
 package ru.javawebinar.basejava.model;
 
-import java.lang.reflect.Array;
+import util.DateUtil;
+
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +43,7 @@ public class Organization {
         return "Organization{" +
                 "homepage=" + homepage +
                 ", positions=" + positions +
-                '}';
+                '}' + "\n";
     }
 
     public static class Position {
@@ -84,8 +85,8 @@ public class Organization {
         @Override
         public String toString() {
             return "Position{" +
-                    "beginDate=" + beginDate +
-                    ", endDate=" + endDate +
+                    "beginDate=" + DateUtil.dateFormat(beginDate) +
+                    ", endDate=" + DateUtil.dateFormat(endDate) +
                     ", position='" + position + '\'' +
                     ", description='" + description + '\'' +
                     '}';
