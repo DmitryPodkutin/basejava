@@ -1,8 +1,10 @@
 package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.*;
+import util.DateUtil;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Arrays;
 
 public class ResumeTestData {
@@ -31,19 +33,19 @@ public class ResumeTestData {
         resume.getSections().put(SectionType.EXPERIENCE,
                 new OrganizationSection(
                         new Organization("Java Online Projects", "http://javaops.ru/",
-                                new Organization.Position(LocalDate.of(2013, 10, 1),
+                                new Organization.Position(DateUtil.of(2013, Month.SEPTEMBER),
                                         LocalDate.now(),
                                         "Автор проекта.",
                                         "Создание, организация и проведение Java онлайн проектов и стажировок.")),
                         new Organization("Wrike", "https://www.wrike.com/",
-                                new Organization.Position(LocalDate.of(2011, 10, 1),
-                                        LocalDate.of(2016, 1, 1),
+                                new Organization.Position(DateUtil.of(2011, Month.SEPTEMBER),
+                                        DateUtil.of(2016, Month.JANUARY),
                                         "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike " +
                                         "(Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). " +
                                         "Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")),
                         new Organization("RIT Center",
-                                new Organization.Position(LocalDate.of(2012, 4, 1),
-                                        LocalDate.of(2014, 10, 1),
+                                new Organization.Position(DateUtil.of(2012, Month.APRIL),
+                                        DateUtil.of(2014, Month.SEPTEMBER),
                                         "Java архитектор", "Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), \" +\n" +
                                         "миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. \" +\n" +
                                         "Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). \" +\n" +
@@ -54,20 +56,20 @@ public class ResumeTestData {
         resume.getSections().put(SectionType.EDUCATION,
                 new OrganizationSection(
                         new Organization("Coursera", "https://www.coursera.org/course/progfun",
-                                new Organization.Position(LocalDate.now(),
-                                        LocalDate.now(),
+                                new Organization.Position(DateUtil.of(2013, Month.MARCH),
+                                        DateUtil.of(2013, Month.APRIL),
                                         "Functional Programming Principles in Scala\" by Martin Odersky")),
                         new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
-                                new Organization.Position(LocalDate.now(),
-                                        LocalDate.now(),
+                                new Organization.Position(DateUtil.of(2011, Month.MARCH),
+                                        DateUtil.of(2011, Month.APRIL),
                                         "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"")),
                         new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
                                 "http://www.ifmo.ru/",
-                                new Organization.Position(LocalDate.now(),
-                                        LocalDate.now(),
+                                new Organization.Position(DateUtil.of(1993, Month.SEPTEMBER),
+                                        DateUtil.of(1996, Month.JULY),
                                         "Аспирантура (программист С, С++)"),
-                                new Organization.Position(LocalDate.now(),
-                                        LocalDate.now(),
+                                new Organization.Position(DateUtil.of(1987, Month.JULY),
+                                        DateUtil.of(1993, Month.JULY),
                                         "Инженер (программист Fortran, C)"))
                 ));
         resume.getContacts().forEach((k, v) -> System.out.println(k.getTitle() + "  : " + v));
