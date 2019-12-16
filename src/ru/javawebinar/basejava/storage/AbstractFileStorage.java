@@ -23,7 +23,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         this.directory = directory;
     }
 
-    protected abstract Resume doRead(File file);
+    protected abstract Resume doRead(File file) throws IOException;
 
     protected abstract void doWrite(File file, Resume resume) throws IOException;
 
@@ -40,20 +40,25 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected void doSave(File file, Resume resume) {
         try {
             file.createNewFile();
-            doWrite(file, resume);
         } catch (IOException e) {
             throw new StorageException("IO Error", file.getName(), e);
         }
+        doUpdate(file, resume);
     }
 
     @Override
     public Resume doGet(File file) {
-        return doRead(file);
+        try {
+            return doRead(file);
+        } catch (IOException e) {
+            throw new StorageException("IO Error", file.getName(), e);
+        }
+
     }
 
     @Override
     protected void doDelete(File file) {
-        if (file.delete()) {
+        if (!file.delete()) {
             throw new StorageException("File not delete ", file.getName());
         }
     }
@@ -71,8 +76,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected List<Resume> getListStorage() {
         File[] files = directory.listFiles();
-        List<Resume> list = new ArrayList<>();
-        for (File fl : Objects.requireNonNull(files)) {
+        if (files == null) {
+            throw new StorageException("No files in directory", null);
+        }
+        List<Resume> list = new ArrayList<>(files.length);
+        for (File fl : files) {
             list.add(doGet(fl));
         }
         return list;
@@ -80,23 +88,21 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        for (File myFile : Objects.requireNonNull(directory.listFiles())) {
-            if (myFile.isFile()) {
-                if (myFile.delete()) {
-                    throw new StorageException("File not delete ", myFile.getName());
-                }
-            }
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("No files in directory", null);
+        }
+        for (File myFile : files) {
+            doDelete(myFile);
         }
     }
 
     @Override
     public int size() {
-        int i = 0;
-        for (File fl : Objects.requireNonNull(directory.listFiles())) {
-            if (fl.isFile() & !fl.isHidden()) {
-                i++;
-            }
+        String[] files = directory.list();
+        if (files == null) {
+            throw new StorageException("No files in directory", null);
         }
-        return i;
+        return files.length;
     }
 }
