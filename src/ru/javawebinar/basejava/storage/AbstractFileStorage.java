@@ -27,6 +27,14 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     protected abstract void doWrite(File file, Resume resume) throws IOException;
 
+    protected File[] getListFiles() {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("No files in directory", null);
+        }
+        return files;
+    }
+
     @Override
     protected void doUpdate(File file, Resume resume) {
         try {
@@ -75,12 +83,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> getListStorage() {
-        File[] files = directory.listFiles();
-        if (files == null) {
-            throw new StorageException("No files in directory", null);
-        }
-        List<Resume> list = new ArrayList<>(files.length);
-        for (File fl : files) {
+        List<Resume> list = new ArrayList<>();
+        for (File fl : getListFiles()) {
             list.add(doGet(fl));
         }
         return list;
@@ -88,21 +92,13 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        File[] files = directory.listFiles();
-        if (files == null) {
-            throw new StorageException("No files in directory", null);
-        }
-        for (File myFile : files) {
+        for (File myFile : getListFiles()) {
             doDelete(myFile);
         }
     }
 
     @Override
     public int size() {
-        String[] files = directory.list();
-        if (files == null) {
-            throw new StorageException("No files in directory", null);
-        }
-        return files.length;
+        return getListFiles().length;
     }
 }
