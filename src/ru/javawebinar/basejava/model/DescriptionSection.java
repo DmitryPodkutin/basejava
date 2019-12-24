@@ -3,6 +3,7 @@ package ru.javawebinar.basejava.model;
 import java.util.Objects;
 
 public class DescriptionSection extends Section {
+    private static final long serialVersion = 1L;
     private final String description;
 
     public DescriptionSection(String description) {
