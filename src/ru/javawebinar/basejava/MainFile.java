@@ -1,22 +1,24 @@
 package ru.javawebinar.basejava;
 
 import java.io.File;
-import java.util.Objects;
 
 public class MainFile {
     public static void main(String[] args) {
-        MainFile.recursivePrintFileNames(new File("/Users/Dmitry/Documents/JavaLessons/basejava"));
+        showTree("/Users/Dmitry/Documents/JavaLessons/basejava/src", 0);
     }
 
-    public static void recursivePrintFileNames(File dir) {
+    public static void showTree(String dirName, int nest) {
+        File dir = new File(dirName);
+        StringBuilder whiteSpace = new StringBuilder();
+        for (int i = 0; i < nest; i++) {
+            whiteSpace.append('\t');
+        }
         File[] files = dir.listFiles();
-        for (File file : Objects.requireNonNull(files)) {
+        for (File file : files) {
+            System.out.println(whiteSpace.toString() + file.getName());
             if (file.isDirectory()) {
-                recursivePrintFileNames(file);
-            } else if (file.isFile()) {
-                System.out.println("File name: " + file.getName());
+                showTree(file.getAbsolutePath(), nest + 1);
             }
         }
     }
 }
-
