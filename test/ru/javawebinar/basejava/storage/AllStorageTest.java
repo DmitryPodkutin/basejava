@@ -10,7 +10,8 @@ import org.junit.runners.Suite;
         ListExpirenceStorageTest.class,
         MapUUIDStorageTest.class,
         MapResumeStorageTest.class,
-        ObjectStreamStorageTest.class
+        FileStorageTest.class,
+        PathStorageTest.class
 })
 public class AllStorageTest {
 }

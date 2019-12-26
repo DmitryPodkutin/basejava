@@ -11,6 +11,7 @@ import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.model.SectionType;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -121,7 +122,7 @@ public abstract class AbstractStorageTest {
         assertEquals(resume, storage.get(resume.getUuid()));
     }
 
-    private void checkSize(int expectedSize) {
+    private void checkSize(int expectedSize) throws IOException {
         assertEquals(expectedSize, storage.size());
     }
 
