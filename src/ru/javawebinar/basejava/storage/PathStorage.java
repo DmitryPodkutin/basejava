@@ -2,6 +2,8 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.storage.serialization.ObjectStreamSerialization;
+import ru.javawebinar.basejava.storage.serialization.Serialization;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -10,14 +12,16 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
-    private Serialization serialization = new ObjectStreamStorage();
+    private Serialization serialization;
 
-    protected PathStorage(String dir) {
+    protected PathStorage(String dir, Serialization serialization) {
         Objects.requireNonNull(dir, "Directory mast be not null");
+        this.serialization = serialization;
         this.directory = Paths.get(dir);
         if (!Files.isDirectory(directory)) {
             throw new IllegalArgumentException(dir + "is not directory");
@@ -73,16 +77,12 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected boolean isExist(Path path) {
-        return Files.exists(path);
+        return Files.isRegularFile(path);
     }
 
     @Override
     protected List<Resume> getListStorage() {
-        List<Resume> list = new ArrayList<>();
-        for (Object fl : getFilesList().toArray()) {
-            list.add(doGet((Path) fl));
-        }
-        return list;
+        return getFilesList().map(this::doGet).collect(Collectors.toList());
     }
 
     public void clear() {
@@ -91,7 +91,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public int size() {
-        return getFilesList().toArray().length;
+        return (int) getFilesList().count();
     }
 
     private String getFileName(Path path) {

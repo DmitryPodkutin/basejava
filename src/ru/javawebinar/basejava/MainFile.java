@@ -3,8 +3,11 @@ package ru.javawebinar.basejava;
 import java.io.File;
 
 public class MainFile {
+    private static final String DIRECTORY = "/Users/Dmitry/Documents/JavaLessons/basejava/src";
+
     public static void main(String[] args) {
-        showTree("/Users/Dmitry/Documents/JavaLessons/basejava/src", 0);
+        System.out.println(DIRECTORY);
+        showTree(DIRECTORY, 0);
     }
 
     public static void showTree(String dirName, int nest) {
