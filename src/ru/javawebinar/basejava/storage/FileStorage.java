@@ -6,9 +6,10 @@ import ru.javawebinar.basejava.storage.serialization.ObjectStreamSerialization;
 import ru.javawebinar.basejava.storage.serialization.Serialization;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class FileStorage extends AbstractStorage<File> {
     private File directory;
@@ -81,11 +82,7 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> getListStorage() {
-        List<Resume> list = new ArrayList<>();
-        for (File fl : getListFiles()) {
-            list.add(doGet(fl));
-        }
-        return list;
+       return Arrays.stream(getListFiles()).map(this::doGet).collect(Collectors.toList());
     }
 
     @Override
