@@ -1,12 +1,14 @@
 package ru.javawebinar.basejava.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+@XmlRootElement
 public class OrganizationSection extends Section {
     private static final long serialVersion = 1L;
-    private final List<Organization> organizations;
+    private List<Organization> organizations;
 
     public OrganizationSection(Organization... organizations) {
         this(Arrays.asList(organizations));
@@ -15,6 +17,9 @@ public class OrganizationSection extends Section {
     public OrganizationSection(List<Organization> organizations) {
         Objects.requireNonNull(organizations, "organizations must not be null");
         this.organizations = organizations;
+    }
+
+    public OrganizationSection() {
     }
 
     public List<Organization> getOrganizations() {

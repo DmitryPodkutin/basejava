@@ -1,15 +1,20 @@
 package ru.javawebinar.basejava.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 import java.util.Objects;
 
+@XmlRootElement
 public class ListSection extends Section {
     private static final long serialVersion = 1L;
-    private final List<String> items;
+    private List<String> items;
 
     public ListSection(List<String> items) {
         Objects.requireNonNull(items, "items must not be null");
         this.items = items;
+    }
+
+    public ListSection() {
     }
 
     public List<String> getItems() {

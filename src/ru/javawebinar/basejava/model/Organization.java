@@ -1,16 +1,23 @@
 package ru.javawebinar.basejava.model;
 
 import util.DateUtil;
+import util.LocalDateAdapter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement
 public class Organization implements Serializable {
-    private final Link homepage;
-    private final List<Position> positions;
+    private Link homepage;
+    private List<Position> positions;
 
     public Organization(String name, String url, Position... position) {
         this(new Link(name, url), Arrays.asList(position));
@@ -23,6 +30,9 @@ public class Organization implements Serializable {
     public Organization(Link homepage, List<Position> positions) {
         this.homepage = homepage;
         this.positions = positions;
+    }
+
+    public Organization() {
     }
 
     @Override
@@ -47,12 +57,15 @@ public class Organization implements Serializable {
                 '}';
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable {
         private static final long serialVersion = 1L;
-        private final LocalDate beginDate;
-        private final LocalDate endDate;
-        private final String position;
-        private final String description;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate beginDate;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate endDate;
+        private String position;
+        private String description;
 
         public Position(LocalDate beginDate, LocalDate endDate, String position, String description) {
             Objects.requireNonNull(beginDate, "beginDate must not be null");
@@ -66,6 +79,9 @@ public class Organization implements Serializable {
 
         public Position(LocalDate beginDate, LocalDate endDate, String position) {
             this(beginDate, endDate, position, null);
+        }
+
+        public Position() {
         }
 
         public LocalDate getBeginDate() {

@@ -1,14 +1,19 @@
 package ru.javawebinar.basejava.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 
+@XmlRootElement
 public class DescriptionSection extends Section {
     private static final long serialVersion = 1L;
-    private final String description;
+    private String description;
 
     public DescriptionSection(String description) {
         Objects.requireNonNull(description, "description must not be null");
         this.description = description;
+    }
+
+    public DescriptionSection() {
     }
 
     public String getDescription() {
