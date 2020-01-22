@@ -35,16 +35,16 @@ public abstract class AbstractStorageTest {
         RESUME_3 = new Resume(UUID_3, "Name3");
         RESUME_4 = new Resume(UUID_4, "Name4");
 
-        RESUME_1.getContacts().put(ContactType.TEL, "+7(921) 855-0482");
-        RESUME_1.getContacts().put(ContactType.SKYPE, "grigory.kislin");
-        RESUME_1.getContacts().put(ContactType.EMAIL, "gkislin@yandex.ru");
-        RESUME_1.getContacts().put(ContactType.LINKED_IN, "https://www.linkedin.com/in/gkislin");
-        RESUME_1.getContacts().put(ContactType.GIT_HUB, "https://github.com/gkislin");
-        RESUME_1.getContacts().put(ContactType.STACKOVER_FLOW, "https://stackoverflow.com/users/548473");
-        RESUME_1.getContacts().put(ContactType.HOME_PAGE, "http://gkislin.ru/");
-        RESUME_1.getSections().put(SectionType.OBJECTIVE, new DescriptionSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
-        RESUME_1.getSections().put(SectionType.PERSONAL, new DescriptionSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
-        RESUME_1.getSections().put(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList(
+        RESUME_1.addContact(ContactType.TEL, "+7(921) 855-0482");
+        RESUME_1.addContact(ContactType.SKYPE, "grigory.kislin");
+        RESUME_1.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
+        RESUME_1.addContact(ContactType.LINKED_IN, "https://www.linkedin.com/in/gkislin");
+        RESUME_1.addContact(ContactType.GIT_HUB, "https://github.com/gkislin");
+        RESUME_1.addContact(ContactType.STACKOVER_FLOW, "https://stackoverflow.com/users/548473");
+        RESUME_1.addContact(ContactType.HOME_PAGE, "http://gkislin.ru/");
+        RESUME_1.addSection(SectionType.OBJECTIVE, new DescriptionSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
+        RESUME_1.addSection(SectionType.PERSONAL, new DescriptionSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
+        RESUME_1.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList(
                 "С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", " +
                         "\"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". " +
                         "Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.", "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. " +
@@ -56,14 +56,14 @@ public abstract class AbstractStorageTest {
                 "Version control: Subversion, Git, Mercury, ClearCase, Perforce",
                 "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle")));
 
-        RESUME_2.getContacts().put(ContactType.TEL, "+7(921) 855-0482");
-        RESUME_2.getContacts().put(ContactType.SKYPE, "grigory.kislin");
-        RESUME_2.getContacts().put(ContactType.EMAIL, "gkislin@yandex.ru");
-        RESUME_2.getContacts().put(ContactType.LINKED_IN, "https://www.linkedin.com/in/gkislin");
-        RESUME_2.getContacts().put(ContactType.GIT_HUB, "https://github.com/gkislin");
-        RESUME_2.getContacts().put(ContactType.STACKOVER_FLOW, "https://stackoverflow.com/users/548473");
-        RESUME_2.getContacts().put(ContactType.HOME_PAGE, "http://gkislin.ru/");
-        RESUME_2.getSections().put(SectionType.EXPERIENCE,
+        RESUME_2.addContact(ContactType.TEL, "+7(921) 855-0482");
+        RESUME_2.addContact(ContactType.SKYPE, "grigory.kislin");
+        RESUME_2.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
+        RESUME_2.addContact(ContactType.LINKED_IN, "https://www.linkedin.com/in/gkislin");
+        RESUME_2.addContact(ContactType.GIT_HUB, "https://github.com/gkislin");
+        RESUME_2.addContact(ContactType.STACKOVER_FLOW, "https://stackoverflow.com/users/548473");
+        RESUME_2.addContact(ContactType.HOME_PAGE, "http://gkislin.ru/");
+        RESUME_2.addSection(SectionType.EXPERIENCE,
                 new OrganizationSection(
                         new Organization("Java Online Projects", "http://javaops.ru/",
                                 new Organization.Position(DateUtil.of(2013, Month.SEPTEMBER),
