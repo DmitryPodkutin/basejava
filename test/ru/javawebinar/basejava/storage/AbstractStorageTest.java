@@ -9,7 +9,6 @@ import ru.javawebinar.basejava.model.*;
 import util.DateUtil;
 
 import java.io.File;
-import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
@@ -67,7 +66,7 @@ public abstract class AbstractStorageTest {
                 new OrganizationSection(
                         new Organization("Java Online Projects", "http://javaops.ru/",
                                 new Organization.Position(DateUtil.of(2013, Month.SEPTEMBER),
-                                        LocalDate.now(),
+                                        DateUtil.of(2020, Month.SEPTEMBER),
                                         "Автор проекта.",
                                         "Создание, организация и проведение Java онлайн проектов и стажировок.")),
                         new Organization("Wrike", "https://www.wrike.com/",

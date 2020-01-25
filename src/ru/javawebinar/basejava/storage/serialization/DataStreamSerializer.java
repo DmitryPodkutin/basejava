@@ -5,6 +5,7 @@ import ru.javawebinar.basejava.model.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -16,15 +17,13 @@ public class DataStreamSerializer implements Serialization {
             dos.writeUTF(r.getUuid());
             dos.writeUTF(r.getFullName());
             Map<ContactType, String> contacts = r.getContacts();
-            dos.writeInt(contacts.size());
-            for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
-                dos.writeUTF(entry.getKey().name());
-                dos.writeUTF(entry.getValue());
-            }
-            dos.writeInt(r.getSections().size());
-            for (Map.Entry<SectionType, Section> entry : r.getSections().entrySet()) {
-                SectionType type = entry.getKey();
-                Section section = entry.getValue();
+            writeCollection(dos, contacts.entrySet(),contactTypeStringEntry -> {
+                dos.writeUTF(contactTypeStringEntry.getKey().name());
+                dos.writeUTF(contactTypeStringEntry.getValue());
+            });
+            writeCollection(dos, r.getSections().entrySet(),sectionTypeSectionEntry -> {
+                SectionType type = sectionTypeSectionEntry.getKey();
+                Section section = sectionTypeSectionEntry.getValue();
                 dos.writeUTF(type.name());
                 switch (type.name()) {
                     case "OBJECTIVE":
@@ -33,23 +32,23 @@ public class DataStreamSerializer implements Serialization {
                         break;
                     case "ACHIEVEMENT":
                     case "QUALIFICATIONS":
-                        writeList(dos, ((ListSection) section).getItems(), s -> dos.writeUTF(s));
+                        writeCollection(dos, ((ListSection) section).getItems(), dos::writeUTF);
                         break;
                     case "EXPERIENCE":
                     case "EDUCATION":
-                        writeList(dos, ((OrganizationSection) section).getOrganizations(), organization -> {
+                        writeCollection(dos, ((OrganizationSection) section).getOrganizations(), organization -> {
                             dos.writeUTF(organization.getHomepage().getName());
                             dos.writeUTF(organization.getHomepage().getUrl());
-                            writeList(dos, organization.getPositions(), position -> {
-                                dos.writeUTF(position.getBeginDate().toString());
-                                dos.writeUTF(position.getEndDate().toString());
+                            writeCollection(dos, organization.getPositions(), position -> {
+                                writeDate(dos, position.getBeginDate());
+                                writeDate(dos, position.getEndDate());
                                 dos.writeUTF(position.getPosition());
                                 dos.writeUTF(position.getDescription());
                             });
                         });
                         break;
                 }
-            }
+            });
         }
     }
 
@@ -77,13 +76,12 @@ public class DataStreamSerializer implements Serialization {
                         break;
                     case "EXPERIENCE":
                     case "EDUCATION":
-                        resume.addSection(type, new OrganizationSection(new Organization(new Link(dis.readUTF(), dis.readUTF()),
-                                readList(dis, () -> new Organization.Position(LocalDate.now(), LocalDate.now(), dis.readUTF(), dis.readUTF())))));
+                        resume.addSection(type, new OrganizationSection(readList(dis,()->
+                                new Organization(new Link(dis.readUTF(), dis.readUTF()),
+                                readList(dis, () -> new Organization.Position(readDate(dis), readDate(dis), dis.readUTF(), dis.readUTF()))))));
                         break;
                 }
-
             }
-            System.out.println(resume.toString());
             return resume;
         }
     }
@@ -94,7 +92,7 @@ public class DataStreamSerializer implements Serialization {
 
     private <T> List<T> readList(DataInputStream dis, ElementReader<T> reader) throws IOException {
         int size = dis.readInt();
-        List<T> list = new ArrayList<>(size);
+        List<T> list = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             list.add(reader.read());
         }
@@ -105,10 +103,20 @@ public class DataStreamSerializer implements Serialization {
         void write(T t) throws IOException;
     }
 
-    public <T> void writeList(DataOutputStream dos, List<T> list, ElementWriter<T> writer) throws IOException {
-        dos.writeInt(list.size());
-        for (T org : list) {
+    private <T> void writeCollection(DataOutputStream dos, Collection<T> collection, ElementWriter<T> writer) throws IOException {
+        dos.writeInt(collection.size());
+        for (T org : collection) {
             writer.write(org);
         }
+    }
+
+    private void writeDate(DataOutputStream dos, LocalDate localDate) throws IOException {
+        dos.writeInt(localDate.getYear());
+        dos.writeInt(localDate.getMonthValue());
+        dos.writeInt(localDate.getDayOfMonth());
+    }
+
+    private LocalDate readDate(DataInputStream dis) throws IOException {
+        return LocalDate.of(dis.readInt(), dis.readInt(), dis.readInt());
     }
 }
