@@ -19,12 +19,11 @@ public class Organization implements Serializable {
     private Link homepage;
     private List<Position> positions;
 
-    public Organization(String name, String url, Position... position) {
-        this(new Link(name, url), Arrays.asList(position));
-    }
-
     public Organization(String name, Position... position) {
         this(name, null, position);
+    }
+    public Organization(String name, String url, Position... position) {
+        this(new Link(name, url), Arrays.asList(position));
     }
 
     public Organization(Link homepage, List<Position> positions) {

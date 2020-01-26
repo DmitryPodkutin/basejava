@@ -25,17 +25,17 @@ public class DataStreamSerializer implements Serialization {
                 SectionType type = sectionTypeSectionEntry.getKey();
                 Section section = sectionTypeSectionEntry.getValue();
                 dos.writeUTF(type.name());
-                switch (type.name()) {
-                    case "OBJECTIVE":
-                    case "PERSONAL":
+                switch (type) {
+                    case OBJECTIVE:
+                    case PERSONAL:
                         dos.writeUTF(((DescriptionSection) section).getDescription());
                         break;
-                    case "ACHIEVEMENT":
-                    case "QUALIFICATIONS":
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
                         writeCollection(dos, ((ListSection) section).getItems(), dos::writeUTF);
                         break;
-                    case "EXPERIENCE":
-                    case "EDUCATION":
+                    case EXPERIENCE:
+                    case EDUCATION:
                         writeCollection(dos, ((OrganizationSection) section).getOrganizations(), organization -> {
                             dos.writeUTF(organization.getHomepage().getName());
                             dos.writeUTF(organization.getHomepage().getUrl());
@@ -58,12 +58,8 @@ public class DataStreamSerializer implements Serialization {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int size = dis.readInt();
-            for (int i = 0; i < size; i++) {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
-            size = dis.readInt();
-            for (int i = 0; i < size; i++) {
+            cycle(dis,()-> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+            cycle(dis,()-> {
                 SectionType type = SectionType.valueOf(dis.readUTF());
                 switch (type.name()) {
                     case "OBJECTIVE":
@@ -81,8 +77,18 @@ public class DataStreamSerializer implements Serialization {
                                 readList(dis, () -> new Organization.Position(readDate(dis), readDate(dis), dis.readUTF(), dis.readUTF()))))));
                         break;
                 }
-            }
+            });
             return resume;
+        }
+    }
+    private interface CycleInterface {
+        void CycleMethod() throws IOException;
+    }
+
+    private void cycle(DataInputStream dis, CycleInterface cycleInterface ) throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            cycleInterface.CycleMethod();
         }
     }
 
