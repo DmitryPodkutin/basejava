@@ -58,8 +58,8 @@ public class DataStreamSerializer implements Serialization {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            cycle(dis,()-> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
-            cycle(dis,()-> {
+            doCycle(dis,()-> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+            doCycle(dis,()-> {
                 SectionType type = SectionType.valueOf(dis.readUTF());
                 switch (type.name()) {
                     case "OBJECTIVE":
@@ -81,17 +81,18 @@ public class DataStreamSerializer implements Serialization {
             return resume;
         }
     }
+    @FunctionalInterface
     private interface CycleInterface {
-        void CycleMethod() throws IOException;
+        void apply() throws IOException;
     }
 
-    private void cycle(DataInputStream dis, CycleInterface cycleInterface ) throws IOException {
+    private void doCycle(DataInputStream dis, CycleInterface cycleInterface ) throws IOException {
         int size = dis.readInt();
         for (int i = 0; i < size; i++) {
-            cycleInterface.CycleMethod();
+            cycleInterface.apply();
         }
     }
-
+    @FunctionalInterface
     private interface ElementReader<T> {
         T read() throws IOException;
     }
@@ -104,7 +105,7 @@ public class DataStreamSerializer implements Serialization {
         }
         return list;
     }
-
+    @FunctionalInterface
     private interface ElementWriter<T> {
         void write(T t) throws IOException;
     }

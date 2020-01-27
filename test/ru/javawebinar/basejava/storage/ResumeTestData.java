@@ -6,6 +6,7 @@ import util.DateUtil;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.Map;
 
 public class ResumeTestData extends Resume{
 
@@ -44,7 +45,7 @@ public class ResumeTestData extends Resume{
                                         "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike " +
                                         "(Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). " +
                                         "Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")),
-                        new Organization("RIT Center","www",
+                        new Organization("RIT Center",
                                 new Organization.Position(DateUtil.of(2012, Month.APRIL),
                                         DateUtil.of(2014, Month.SEPTEMBER),
                                         "Java архитектор", "Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), \" +\n" +
@@ -58,15 +59,15 @@ public class ResumeTestData extends Resume{
                         new Organization("Coursera", "https://www.coursera.org/course/progfun",
                                 new Organization.Position(DateUtil.of(2013, Month.MARCH),
                                         DateUtil.of(2013, Month.APRIL),
-                                        "Functional Programming Principles in Scala\" by Martin Odersky"," ")),
+                                        "Functional Programming Principles in Scala\" by Martin Odersky")),
                         new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
                                 new Organization.Position(DateUtil.of(2011, Month.MARCH),
-                                        DateUtil.of(2011, Month.APRIL), "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\""," ")),
-new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики","www",
-        new Organization.Position(DateUtil.of(1993, Month.SEPTEMBER), DateUtil.of(1996, Month.JULY), "Аспирантура (программист С, С++)"," "),
+                                        DateUtil.of(2011, Month.APRIL), "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"")),
+new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
+        new Organization.Position(DateUtil.of(1993, Month.SEPTEMBER), DateUtil.of(1996, Month.JULY), "Аспирантура (программист С, С++)"),
                                 new Organization.Position(DateUtil.of(1987, Month.JULY),
                                         DateUtil.of(1993, Month.JULY),
-                                        "Инженер (программист Fort ran, C)",""))
+                                        "Инженер (программист Fort ran, C)"))
                 ));
         return resume;
     }
