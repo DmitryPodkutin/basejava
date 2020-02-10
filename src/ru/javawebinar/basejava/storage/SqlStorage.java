@@ -30,7 +30,7 @@ public class SqlStorage implements Storage {
     @Override
     public void update(Resume resume) {
         try (Connection connection = connectionFactory.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE resume SET full_name='TestName' WHERE uuid='uuid1'")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE resume r SET full_name = 'TestName' WHERE uuid = r.uuid")) {
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new StorageException(e);
@@ -52,7 +52,7 @@ public class SqlStorage implements Storage {
     @Override
     public Resume get(String uuid) {
         try (Connection connection = connectionFactory.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM resume r WHERE r.uuid =? ")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM resume r WHERE r.uuid = ?")) {
             preparedStatement.setString(1, uuid);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {
@@ -67,10 +67,10 @@ public class SqlStorage implements Storage {
     @Override
     public void delete(String uuid) {
         try (Connection connection = connectionFactory.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM resume WHERE uuid ='uuid1'")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM resume r WHERE r.uuid = ?")) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new StorageException(e);
+            throw new NotExistStorageException(uuid);
         }
     }
 
