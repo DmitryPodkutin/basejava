@@ -8,9 +8,20 @@ public class StorageException extends RuntimeException {
         this.uuid = uuid;
     }
 
+    public StorageException( Exception e) {
+        this(e.getMessage(), e);
+    }
     public StorageException(String message, String uuid, Exception e) {
         super(message, e);
         this.uuid = uuid;
+    }
+
+    public StorageException(String message, Exception e) {
+        this(message, null, e);
+    }
+
+    public StorageException(String no_files_in_directory) {
+        this(no_files_in_directory,null,null);
     }
 
     public String getUuid() {

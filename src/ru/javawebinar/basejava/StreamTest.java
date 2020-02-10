@@ -27,5 +27,17 @@ public class StreamTest {
                 .collect(Collectors.toList());
     }
 
+//    AtomicInteger sum = new AtomicInteger();
+//return integers.stream()
+//        .collect(Collectors.partitioningBy(i -> {
+//        sum.addAndGet(i);
+//        return i % 2 == 0;
+//    }))
+//            .get(sum.get() % 2 != 0);
+
+//    return integers.stream()
+//            .collect(Collectors.partitioningBy(i -> i % 2 == 0))
+//            .get(integers.stream().mapToInt(Integer::intValue).sum() % 2 != 0);
+
 }
 

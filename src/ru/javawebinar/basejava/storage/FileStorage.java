@@ -29,7 +29,7 @@ public class FileStorage extends AbstractStorage<File> {
     protected File[] getListFiles() {
         File[] files = directory.listFiles();
         if (files == null) {
-            throw new StorageException("No files in directory", null);
+            throw new StorageException("No files in directory");
         }
         return files;
     }
