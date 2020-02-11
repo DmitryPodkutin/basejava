@@ -1,6 +1,5 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
@@ -30,8 +29,12 @@ public class SqlStorage implements Storage {
     @Override
     public void update(Resume resume) {
         try (Connection connection = connectionFactory.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE resume r SET full_name = 'TestName' WHERE uuid = r.uuid")) {
-            preparedStatement.execute();
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE resume SET full_name = ? WHERE uuid = ?")) {
+            preparedStatement.setString(1, resume.getFullName());
+            preparedStatement.setString(2, resume.getUuid());
+            if (preparedStatement.executeUpdate() == 0) {
+                throw new NotExistStorageException(resume.getUuid());
+            }
         } catch (SQLException e) {
             throw new StorageException(e);
         }
@@ -45,7 +48,7 @@ public class SqlStorage implements Storage {
             preparedStatement.setString(2, resume.getFullName());
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new ExistStorageException(resume.getUuid());
+            throw new StorageException(e);
         }
     }
 
@@ -67,10 +70,13 @@ public class SqlStorage implements Storage {
     @Override
     public void delete(String uuid) {
         try (Connection connection = connectionFactory.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM resume r WHERE r.uuid = ?")) {
-            preparedStatement.executeUpdate();
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM resume  WHERE uuid = ?")) {
+            preparedStatement.setString(1, uuid);
+            if (preparedStatement.executeUpdate() == 0) {
+                throw new NotExistStorageException(uuid);
+            }
         } catch (SQLException e) {
-            throw new NotExistStorageException(uuid);
+            throw new StorageException(uuid);
         }
     }
 
@@ -78,7 +84,7 @@ public class SqlStorage implements Storage {
     public List<Resume> getAllSorted() {
         List<Resume> list = new ArrayList<>();
         try (Connection connection = connectionFactory.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM resume ORDER BY uuid ASC")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM resume ORDER BY full_name,uuid ASC")) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 list.add(new Resume(resultSet.getString("uuid"), resultSet.getString("full_name")));

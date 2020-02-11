@@ -28,11 +28,11 @@ public abstract class AbstractStorageTest {
     private static final Resume RESUME_4;
 
     static {
-        ResumeTestData rs =  new ResumeTestData();
+        ResumeTestData rs = new ResumeTestData();
         RESUME_1 = new Resume(UUID_1, "Name1");
         RESUME_2 = new Resume(UUID_2, "Name2");
         RESUME_3 = new Resume(UUID_3, "Name3");
-       // RESUME_3 = rs.getResume(UUID_3, "Name3");
+        // RESUME_3 = rs.getResume(UUID_3, "Name3");
         RESUME_4 = new Resume(UUID_4, "Name4");
 
     }
@@ -71,7 +71,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void deleteNotExist() {
-        storage.get("dummy");
+        storage.delete("dummy");
     }
 
     @Test
@@ -90,7 +90,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() {
-        storage.update(storage.get("dummy"));
+        storage.update(RESUME_4);
     }
 
     @Test
