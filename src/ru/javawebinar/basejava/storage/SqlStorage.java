@@ -9,20 +9,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqlStorage implements Storage {
-    public final SqlHelper sqlHalper;
+    public final SqlHelper sqlHelper;
 
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
-        sqlHalper = new SqlHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
+        sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
     }
 
     @Override
     public void clear() {
-        sqlHalper.execute("DELETE FROM resume", PreparedStatement::execute);
+        sqlHelper.execute("DELETE FROM resume", PreparedStatement::execute);
     }
 
     @Override
     public void update(Resume resume) {
-        sqlHalper.execute("UPDATE resume SET full_name = ? WHERE uuid = ?", ps -> {
+        sqlHelper.execute("UPDATE resume SET full_name = ? WHERE uuid = ?", ps -> {
             ps.setString(1, resume.getFullName());
             ps.setString(2, resume.getUuid());
             if (ps.executeUpdate() == 0) {
@@ -35,7 +35,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public void save(Resume r) {
-        sqlHalper.execute("INSERT INTO resume (uuid, full_name) VALUES (?,?)", ps -> {
+        sqlHelper.execute("INSERT INTO resume (uuid, full_name) VALUES (?,?)", ps -> {
             ps.setString(1, r.getUuid());
             ps.setString(2, r.getFullName());
             ps.execute();
@@ -44,7 +44,7 @@ public class SqlStorage implements Storage {
     }
 
     public Resume get(String uuid) {
-        return sqlHalper.execute("SELECT * FROM resume r WHERE r.uuid = ?", ps -> {
+        return sqlHelper.execute("SELECT * FROM resume r WHERE r.uuid = ?", ps -> {
             ps.setString(1, uuid);
             ResultSet resultSet = ps.executeQuery();
             if (!resultSet.next()) {
@@ -56,7 +56,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-        sqlHalper.execute("DELETE FROM resume  WHERE uuid = ?", ps ->
+        sqlHelper.execute("DELETE FROM resume  WHERE uuid = ?", ps ->
         {
             ps.setString(1, uuid);
             if (ps.executeUpdate() == 0) {
@@ -69,7 +69,7 @@ public class SqlStorage implements Storage {
     @Override
     public List<Resume> getAllSorted() {
         List<Resume> list = new ArrayList<>();
-        return sqlHalper.execute("SELECT * FROM resume ORDER BY full_name,uuid", ps ->
+        return sqlHelper.execute("SELECT * FROM resume ORDER BY full_name,uuid", ps ->
         {
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
@@ -81,7 +81,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public int size() {
-        return sqlHalper.execute("SELECT COUNT(*)  FROM resume", ps ->
+        return sqlHelper.execute("SELECT COUNT(*)  FROM resume", ps ->
         {
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
@@ -90,7 +90,6 @@ public class SqlStorage implements Storage {
                 return 0;
             }
         });
-
     }
 
 }
