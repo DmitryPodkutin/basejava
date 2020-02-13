@@ -81,15 +81,16 @@ public class SqlStorage implements Storage {
 
     @Override
     public int size() {
-        return sqlHalper.execute("SELECT COUNT(*) FROM resume", ps ->
+        return sqlHalper.execute("SELECT COUNT(*)  FROM resume", ps ->
         {
             ResultSet resultSet = ps.executeQuery();
-            int size = 0;
-            while (resultSet.next()) {
-                size = resultSet.getInt(1);
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            } else {
+                return 0;
             }
-            return size;
         });
 
     }
+
 }
