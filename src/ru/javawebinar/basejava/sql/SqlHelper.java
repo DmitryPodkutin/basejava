@@ -23,13 +23,15 @@ public class SqlHelper {
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
             return blocOfCode.executes(preparedStatement);
         } catch (SQLException e) {
-            if (e.getSQLState().equals("23505")) {
-                throw new ExistStorageException(null);
-            } else try {
-                throw new SQLException(e);
-            } catch (SQLException ex) {
-                throw new StorageException(ex);
-            }
+            throw convertException(e);
+        }
+    }
+
+    private StorageException convertException(SQLException e) {
+        if (e.getSQLState().equals("23505")) {
+            return new ExistStorageException(null);
+        } else {
+            return new StorageException(e);
         }
     }
 }
