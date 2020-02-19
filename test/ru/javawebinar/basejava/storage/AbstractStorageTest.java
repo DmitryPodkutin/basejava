@@ -31,9 +31,9 @@ public abstract class AbstractStorageTest {
     static {
         ResumeTestData rs = new ResumeTestData();
         RESUME_1 = new Resume(UUID_1, "Name1");
-        RESUME_3 = new Resume(UUID_3, "Name3");
+//        RESUME_3 = new Resume(UUID_3, "Name3");
         RESUME_2 = new Resume(UUID_2, "Name2");
-        // RESUME_3 = rs.getResume(UUID_3, "Name3");
+        RESUME_3 = rs.getResume(UUID_3, "Name3");
         RESUME_4 = new Resume(UUID_4, "Name4");
 
     }
@@ -101,9 +101,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() {
-        storage.get(UUID_1);
-        storage.get(UUID_2);
-        storage.get(UUID_3);
+        assertGet(RESUME_1);
+        assertGet(RESUME_2);
+        assertGet(RESUME_3);
     }
 
     @Test(expected = NotExistStorageException.class)
