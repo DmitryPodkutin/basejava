@@ -30,9 +30,11 @@ public class SqlStorage implements Storage {
                     throw new NotExistStorageException(resume.getUuid());
                 }
             }
+                try (PreparedStatement ps = conn.prepareStatement("UPDATE contact SET (resume_uuid, type, value) VALUES (?,?,?)")) {
+                    saveContacts(resume, ps);
+                }
             return null;
         });
-
     }
 
     @Override
@@ -44,13 +46,7 @@ public class SqlStorage implements Storage {
                         ps.execute();
                     }
                     try (PreparedStatement ps = conn.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?,?,?)")) {
-                        for (Map.Entry<ContactType, String> e : resume.getContacts().entrySet()) {
-                            ps.setString(1, resume.getUuid());
-                            ps.setString(2, e.getKey().name());
-                            ps.setString(3, e.getValue());
-                            ps.addBatch();
-                        }
-                        ps.executeBatch();
+                        saveContacts(resume, ps);
                     }
                     return null;
                 }
@@ -106,15 +102,8 @@ public class SqlStorage implements Storage {
                         addContact(resultSet, map.get(uuid));
                     }
                     return new ArrayList<>(map.values());
+                    //https://overcoder.net/q/1963/как-преобразовать-карту-в-список-в-java
                 });
-    }
-
-    private void addContact(ResultSet resultSet, Resume resume) throws SQLException {
-        if (resultSet.getString("value") != null) {
-            String value = resultSet.getString("value");
-            ContactType type = ContactType.valueOf(resultSet.getString("type"));
-            resume.addContact(type, value);
-        }
     }
 
     @Override
@@ -128,7 +117,22 @@ public class SqlStorage implements Storage {
             }
         });
     }
+    private void addContact(ResultSet resultSet, Resume resume) throws SQLException {
+        if (resultSet.getString("value") != null) {
+            String value = resultSet.getString("value");
+            ContactType type = ContactType.valueOf(resultSet.getString("type"));
+            resume.addContact(type, value);
+        }
+    }
 
-
+    private void saveContacts(Resume resume, PreparedStatement ps) throws SQLException {
+        for (Map.Entry<ContactType, String> e : resume.getContacts().entrySet()) {
+            ps.setString(1, resume.getUuid());
+            ps.setString(2, e.getKey().name());
+            ps.setString(3, e.getValue());
+            ps.addBatch();
+        }
+        ps.executeBatch();
+    }
 }
 
