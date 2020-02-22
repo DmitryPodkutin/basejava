@@ -30,9 +30,10 @@ public class SqlStorage implements Storage {
                     throw new NotExistStorageException(resume.getUuid());
                 }
             }
-                try (PreparedStatement ps = conn.prepareStatement("UPDATE contact SET (resume_uuid, type, value) VALUES (?,?,?)")) {
-                    saveContacts(resume, ps);
-                }
+            try (PreparedStatement ps = conn.prepareStatement("UPDATE contact SET (resume_uuid, type, value) VALUES (?,?,?)")) {
+                deleteContacts(resume);
+                saveContacts(resume, ps);
+            }
             return null;
         });
     }
@@ -94,12 +95,14 @@ public class SqlStorage implements Storage {
                 ps -> {
                     ResultSet resultSet = ps.executeQuery();
                     Map<String, Resume> map = new LinkedHashMap<>();
+
                     while (resultSet.next()) {
                         String uuid = resultSet.getString("uuid");
-                        if (map.get(uuid) == null) {
-                            map.put(uuid, new Resume(uuid, resultSet.getString("full_name")));
-                        }
-                        addContact(resultSet, map.get(uuid));
+                        String full_name = resultSet.getString("full_name");
+//                        Resume resume = map.computeIfAbsent(uuid,u-> new Resume(u, resultSet.getString(("full_name"))));
+                        Resume resume = map.computeIfAbsent(uuid, u -> new Resume(u, full_name));
+                       // https://ru.stackoverflow.com/questions/916032/Рефакторинг-кода-используя-computeifabsent
+                        addContact(resultSet, resume);
                     }
                     return new ArrayList<>(map.values());
                     //https://overcoder.net/q/1963/как-преобразовать-карту-в-список-в-java
@@ -117,9 +120,10 @@ public class SqlStorage implements Storage {
             }
         });
     }
+
     private void addContact(ResultSet resultSet, Resume resume) throws SQLException {
-        if (resultSet.getString("value") != null) {
-            String value = resultSet.getString("value");
+        String value = resultSet.getString("value");
+        if (value != null) {
             ContactType type = ContactType.valueOf(resultSet.getString("type"));
             resume.addContact(type, value);
         }
@@ -133,6 +137,13 @@ public class SqlStorage implements Storage {
             ps.addBatch();
         }
         ps.executeBatch();
+    }
+    private void deleteContacts(Resume resume){
+        sqlHelper.execute("DELETE FROM contact  WHERE resume_uuid = ?", ps -> {
+                ps.setString(1, resume.getFullName());
+                ps.execute();
+            return null;
+        });
     }
 }
 
