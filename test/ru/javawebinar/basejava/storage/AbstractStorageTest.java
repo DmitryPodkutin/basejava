@@ -30,10 +30,9 @@ public abstract class AbstractStorageTest {
 
     static {
         ResumeTestData rs = new ResumeTestData();
-        RESUME_1 = new Resume(UUID_1, "Name1");
-//        RESUME_3 = new Resume(UUID_3, "Name3");
+        RESUME_1 = rs.getResume(UUID_1, "Name1");
+        RESUME_3 = new Resume(UUID_3, "Name3");
         RESUME_2 = new Resume(UUID_2, "Name2");
-        RESUME_3 = rs.getResume(UUID_3, "Name3");
         RESUME_4 = new Resume(UUID_4, "Name4");
 
     }
@@ -84,9 +83,12 @@ public abstract class AbstractStorageTest {
     @Test
     public void update() {
         ResumeTestData rs = new ResumeTestData();
-        Resume resumeForUpdate = rs.getResume(UUID_3, "TestName");
+        Resume resumeForUpdate = rs.getResume(UUID_1, "TestName");
+        RESUME_1.addContact(ContactType.EMAIL, "mail@google.com");
+        RESUME_1.addContact(ContactType.SKYPE, "NewSkype");
+        RESUME_1.addContact(ContactType.TEL, "322223322");
         storage.update(resumeForUpdate);
-        assertEquals(resumeForUpdate, storage.get(UUID_3));
+        assertEquals(resumeForUpdate, storage.get(UUID_1));
 
     }
 
