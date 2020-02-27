@@ -94,7 +94,6 @@ public class SqlStorage implements Storage {
                     while (resultSet.next()) {
                         String uuid = resultSet.getString("uuid");
                         String full_name = resultSet.getString("full_name");
-//                        Resume resume = map.computeIfAbsent(uuid,u-> new Resume(u, resultSet.getString(("full_name"))));
                         Resume resume = map.computeIfAbsent(uuid, u -> new Resume(u, full_name));
                         // https://ru.stackoverflow.com/questions/916032/Рефакторинг-кода-используя-computeifabsent
                         addContact(resultSet, resume);
