@@ -82,25 +82,33 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return sqlHelper.execute(
-                "SELECT * FROM resume r " +
-                        "LEFT JOIN contact c " +
-                        "ON r.uuid = c.resume_uuid " +
-                        "ORDER BY full_name,uuid",
-                ps -> {
-                    ResultSet resultSet = ps.executeQuery();
-                    Map<String, Resume> map = new LinkedHashMap<>();
-
-                    while (resultSet.next()) {
-                        String uuid = resultSet.getString("uuid");
-                        String full_name = resultSet.getString("full_name");
-                        Resume resume = map.computeIfAbsent(uuid, u -> new Resume(u, full_name));
-                        // https://ru.stackoverflow.com/questions/916032/Рефакторинг-кода-используя-computeifabsent
-                        addContact(resultSet, resume);
-                    }
-                    return new ArrayList<>(map.values());
-                    //https://overcoder.net/q/1963/как-преобразовать-карту-в-список-в-java
-                });
+        return sqlHelper.transactionalExecute(conn -> {
+            Map<String, Resume> map = new LinkedHashMap<>();
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume ORDER BY full_name,uuid")) {
+                ResultSet resultSet = ps.executeQuery();
+                while (resultSet.next()) {
+                    String uuid = resultSet.getString("uuid");
+                    String full_name = resultSet.getString("full_name");
+                    map.computeIfAbsent(uuid, u -> new Resume(u, full_name));
+                }
+            }
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM contact")) {
+                ResultSet resultSet = ps.executeQuery();
+                while (resultSet.next()) {
+                    String resume_uuid = resultSet.getString("resume_uuid");
+                    map.forEach((key, resume) -> {
+                        if (resume_uuid.equals(key)) {
+                            try {
+                                addContact(resultSet,resume);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+                return new ArrayList<>(map.values());
+            }
+        });
     }
 
     @Override
