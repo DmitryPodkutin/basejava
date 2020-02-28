@@ -19,8 +19,8 @@ public class ResumeTestData extends Resume{
         resume.addContact(ContactType.GIT_HUB, "https://github.com/gkislin");
         resume.addContact(ContactType.STACKOVER_FLOW, "https://stackoverflow.com/users/548473");
         resume.addContact(ContactType.HOME_PAGE, "http://gkislin.ru/");
-//        resume.addSection(SectionType.OBJECTIVE, new DescriptionSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
-//        resume.addSection(SectionType.PERSONAL, new DescriptionSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
+        resume.addSection(SectionType.OBJECTIVE, new DescriptionSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
+        resume.addSection(SectionType.PERSONAL, new DescriptionSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
 //        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList(
 //                "С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", " +
 //                        "\"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". " +
