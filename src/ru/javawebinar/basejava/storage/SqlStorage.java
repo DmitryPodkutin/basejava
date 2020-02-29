@@ -150,10 +150,16 @@ public class SqlStorage implements Storage {
 
     private void addSection(ResultSet resultSet, Resume resume) throws SQLException {
         String description = resultSet.getString("description");
-        if (description != null) {
-            SectionType type = SectionType.valueOf(resultSet.getString("type"));
-            DescriptionSection section = new DescriptionSection(description);
-            resume.addSection(type, section);
+        SectionType type = SectionType.valueOf(resultSet.getString("type"));
+        switch (type.name()) {
+            case "OBJECTIVE":
+            case "PERSONAL":
+                    resume.addSection(type, new DescriptionSection(description));
+                break;
+            case "ACHIEVEMENT":
+            case "QUALIFICATIONS":
+                    resume.addSection(type, new ListSection(Arrays.asList(description.split("/n"))));
+                break;
         }
     }
 
@@ -175,7 +181,22 @@ public class SqlStorage implements Storage {
                 ps.setString(1, resume.getUuid());
                 ps.setString(2, e.getKey().name());
                 Section section = e.getValue();
-                ps.setString(3, ((DescriptionSection) section).getDescription());
+                switch (e.getKey().name()) {
+                    case "OBJECTIVE":
+                    case "PERSONAL":
+                        ps.setString(3, ((DescriptionSection) section).getDescription());
+                        ps.addBatch();
+                        break;
+                    case "ACHIEVEMENT":
+                    case "QUALIFICATIONS":
+                        ListSection listSection = (ListSection) section;
+                        StringBuilder string = new StringBuilder();
+                        for (int i = 0; i < listSection.getItems().size(); i++) {
+                            string.append(listSection.getItems().get(i)).append("/n");
+                        }
+                        ps.setString(3, string.toString());
+                        break;
+                }
                 ps.addBatch();
             }
             ps.executeBatch();

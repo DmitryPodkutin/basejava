@@ -21,17 +21,17 @@ public class ResumeTestData extends Resume{
         resume.addContact(ContactType.HOME_PAGE, "http://gkislin.ru/");
         resume.addSection(SectionType.OBJECTIVE, new DescriptionSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
         resume.addSection(SectionType.PERSONAL, new DescriptionSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
-//        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList(
-//                "С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", " +
-//                        "\"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". " +
-//                        "Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.", "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. " +
-//                        "Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.", "Налаживание процесса разработки и непрерывной интеграции ERP системы River BPM. Интеграция с 1С," +
-//                        " Bonita BPM, CMIS, LDAP. Разработка приложения управления окружением на стеке: Scala/Play/Anorm/JQuery. Разработка SSO аутентификации и авторизации различных ERP модулей, " +
-//                        "интеграция CIFS/SMB java сервера.")));
-//        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList(
-//                "JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2",
-//                "Version control: Subversion, Git, Mercury, ClearCase, Perforce",
-//                "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle")));
+        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList(
+                "С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", " +
+                        "\"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". " +
+                        "Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.", "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. " +
+                        "Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.", "Налаживание процесса разработки и непрерывной интеграции ERP системы River BPM. Интеграция с 1С," +
+                        " Bonita BPM, CMIS, LDAP. Разработка приложения управления окружением на стеке: Scala/Play/Anorm/JQuery. Разработка SSO аутентификации и авторизации различных ERP модулей, " +
+                        "интеграция CIFS/SMB java сервера.")));
+        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList(
+                "JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2",
+                "Version control: Subversion, Git, Mercury, ClearCase, Perforce",
+                "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle")));
 //        resume.addSection(SectionType.EXPERIENCE,
 //                new OrganizationSection(
 //                        new Organization("Java Online Projects", "http://javaops.ru/",
