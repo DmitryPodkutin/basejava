@@ -55,7 +55,7 @@ public class SqlStorage implements Storage {
             return null;
         });
     }
-
+    @Override
     public Resume get(String uuid) {
         return sqlHelper.transactionalExecute(conn -> {
             Resume resume;
@@ -109,12 +109,8 @@ public class SqlStorage implements Storage {
                     map.put(uuid, new Resume(uuid, full_name));
                 }
             }
-            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM contact")) {
-                doGet(map, ps, this::addContact);
-            }
-            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM section")) {
-                doGet(map, ps, this::addSection);
-            }
+                doGet("SELECT * FROM contact",map, conn, this::addContact);
+                doGet("SELECT * FROM section",map, conn, this::addSection);
             return new ArrayList<>(map.values());
         });
     }
@@ -123,15 +119,16 @@ public class SqlStorage implements Storage {
         void execute(ResultSet rs, Resume r) throws SQLException;
     }
 
-    private void doGet(Map<String, Resume> map, PreparedStatement ps, BlocOfCode blocOfCode) throws SQLException {
-        ResultSet resultSet = ps.executeQuery();
-        while (resultSet.next()) {
-            String resume_uuid = resultSet.getString("resume_uuid");
-            Resume resume = map.get(resume_uuid);
-            blocOfCode.execute(resultSet, resume);
+    private void doGet(String sql, Map<String, Resume> map, Connection conn , BlocOfCode blocOfCode) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                String resume_uuid = resultSet.getString("resume_uuid");
+                Resume resume = map.get(resume_uuid);
+                blocOfCode.execute(resultSet, resume);
+            }
         }
     }
-
 
     @Override
     public int size() {
@@ -145,7 +142,7 @@ public class SqlStorage implements Storage {
         });
     }
 
-    public void addContact(ResultSet resultSet, Resume resume) throws SQLException {
+    private void addContact(ResultSet resultSet, Resume resume) throws SQLException {
         String value = resultSet.getString("value");
         if (value != null) {
             ContactType type = ContactType.valueOf(resultSet.getString("type"));
