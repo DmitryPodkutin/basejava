@@ -11,31 +11,13 @@ import ru.javawebinar.basejava.model.*;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static ru.javawebinar.basejava.storage.ResumeTestData.*;
 
 public abstract class AbstractStorageTest {
     protected final static File STORAGE_DIR = Config.get().getStorageDir();
     final Storage storage;
-
-    private static final String UUID_1 = UUID.randomUUID().toString();
-    private static final String UUID_2 = UUID.randomUUID().toString();
-    private static final String UUID_3 = UUID.randomUUID().toString();
-    private static final String UUID_4 = UUID.randomUUID().toString();
-    private static final Resume RESUME_1;
-    private static final Resume RESUME_2;
-    private static final Resume RESUME_3;
-    private static final Resume RESUME_4;
-
-    static {
-        ResumeTestData rs = new ResumeTestData();
-        RESUME_1 = rs.getResume(UUID_1, "Name1");
-        RESUME_3 = new Resume(UUID_3, "Name3");
-        RESUME_2 = new Resume(UUID_2, "Name2");
-        RESUME_4 = new Resume(UUID_4, "Name4");
-
-    }
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -83,7 +65,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void update() {
         ResumeTestData rs = new ResumeTestData();
-        Resume resumeForUpdate = rs.getResume(UUID_1, "TestName");
+        Resume resumeForUpdate = new Resume(UUID_1, "TestName");
         resumeForUpdate.addContact(ContactType.EMAIL, "test@mail.com");
         resumeForUpdate.addContact(ContactType.SKYPE, "TestSkype");
         resumeForUpdate.addContact(ContactType.TEL, "123456789");

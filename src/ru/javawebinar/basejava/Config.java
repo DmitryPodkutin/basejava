@@ -3,6 +3,7 @@ package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.storage.SqlStorage;
 import ru.javawebinar.basejava.storage.Storage;
+import util.HtmlUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +12,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Config {
-    private static final File PROPS = new File("config/resumes.properties");
+    private static final File PROPS = new File(getHomeDir(), "config/resumes.properties");
     private static final Config INSTANCE = new Config();
 
     private final File storageDir;
@@ -22,6 +23,7 @@ public class Config {
     }
 
     private Config() {
+        HtmlUtil htmlUtil = new HtmlUtil();
         try (InputStream is = new FileInputStream(PROPS)) {
             Properties props = new Properties();
             props.load(is);
@@ -38,6 +40,15 @@ public class Config {
 
     public Storage getSqlStorage() {
         return SqlStorage;
+    }
+
+    private static File getHomeDir() {
+        String prop = System.getProperty("homeDir");
+        File homeDir = new File(prop == null ? "." : prop);
+        if (!homeDir.isDirectory()) {
+            throw new IllegalStateException("Invalid config File" + PROPS.getAbsolutePath());
+        }
+        return homeDir;
     }
 }
 

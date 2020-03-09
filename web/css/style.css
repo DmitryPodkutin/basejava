@@ -1,0 +1,37 @@
+header {
+    background: none repeat scroll 0 0 #525D76;
+    color: white;
+    font-size: 20px;
+    padding: 5px 20px;
+}
+
+footer {
+    background: none repeat scroll 0 0 #525D76;
+    color: white;
+    font-size: 20px;
+    padding: 5px 20px;
+    margin: 20px 0;
+}
+
+h2, h3 {
+    margin: 13px 0 2px;
+}
+
+li {
+    margin: 15px 0;
+}
+
+b {color:white;background-color:#525D76;}
+
+BODY {
+    background: white; /* Цвет фона веб-страницы */
+}
+a {
+    color: white; /* Цвет ссылок */
+}
+a:visited {
+    color: #cecece; /* Цвет посещенных ссылок */
+}
+a:active {
+    color: #13ffd5; /* Цвет активных ссылок */
+}

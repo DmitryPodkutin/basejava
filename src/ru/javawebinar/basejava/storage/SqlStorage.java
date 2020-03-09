@@ -3,6 +3,7 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.sql.SqlHelper;
+import util.JsonParser;
 
 import java.sql.*;
 import java.util.*;
@@ -153,19 +154,10 @@ public class SqlStorage implements Storage {
     private void addSection(ResultSet resultSet, Resume resume) throws SQLException {
         String description = resultSet.getString("description");
         SectionType type = SectionType.valueOf(resultSet.getString("type"));
-        switch (type.name()) {
-            case "OBJECTIVE":
-            case "PERSONAL":
-                resume.addSection(type, new DescriptionSection(description));
-                break;
-            case "ACHIEVEMENT":
-            case "QUALIFICATIONS":
-                resume.addSection(type, new ListSection(Arrays.asList(description.split("/n"))));
-                break;
-        }
+        resume.addSection(type, JsonParser.read(description, Section.class));
     }
 
-    private void saveContacts(Resume resume, Connection conn) throws SQLException {
+    private void  saveContacts(Resume resume, Connection conn) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement("INSERT INTO  contact (resume_uuid, type, value) VALUES (?,?,?)")) {
             for (Map.Entry<ContactType, String> e : resume.getContacts().entrySet()) {
                 ps.setString(1, resume.getUuid());
@@ -180,19 +172,10 @@ public class SqlStorage implements Storage {
     private void saveSection(Resume resume, Connection conn) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement("INSERT INTO  section (resume_uuid,type, description) VALUES (?,?,?)")) {
             for (Map.Entry<SectionType, Section> e : resume.getSections().entrySet()) {
+                Section section = e.getValue();
                 ps.setString(1, resume.getUuid());
                 ps.setString(2, e.getKey().name());
-                Section section = e.getValue();
-                switch (e.getKey().name()) {
-                    case "OBJECTIVE":
-                    case "PERSONAL":
-                        ps.setString(3, ((DescriptionSection) section).getDescription());
-                        break;
-                    case "ACHIEVEMENT":
-                    case "QUALIFICATIONS":
-                        ps.setString(3, String.join("/n", ((ListSection) section).getItems()));
-                        break;
-                }
+                ps.setString(3, JsonParser.write(section,Section.class));
                 ps.addBatch();
             }
             ps.executeBatch();
