@@ -13,15 +13,17 @@
         <tr>
             <th align="left" bgcolor="#525D76"><b>Имя</b></th>
             <th align="left" bgcolor="#525D76"><b>Email</b></th>
-            <th align="left" bgcolor="#525D76"><img src="img/add.png"></th>
+            <th align="left" bgcolor="#525D76"><a href="resume?&action=add"><img src="img/add.png"></a></th>
         </tr>
         <c:forEach items="${resumes}" var="resume">
             <jsp:useBean id="resume" type="ru.javawebinar.basejava.model.Resume"/>
             <tr>
-                <td bgcolor="#525D76"><b><a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a></b></td>
+                <td bgcolor="#525D76"><b><a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a></b>
+                </td>
                 <td bgcolor="#525D76"><b>${resume.getContact(ContactType.EMAIL)}</b></td>
                 <td bgcolor="#525D76"><b><a href="resume?uuid=${resume.uuid}&action=delete"><img src="img/delete.png"></a></b></td>
-                <td bgcolor="#525D76"><b><a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></b></td>
+                <td bgcolor="#525D76"><b><a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></b>
+                </td>
                 </b>
                 </td>
             </tr>
