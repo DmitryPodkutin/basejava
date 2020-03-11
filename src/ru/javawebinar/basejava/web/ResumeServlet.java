@@ -24,9 +24,9 @@ public class ResumeServlet extends HttpServlet {
         String uuid = request.getParameter("uuid");
         String fulName = request.getParameter("fullName");
         final Resume resume;
-        if (uuid.equals("")) {
+        boolean safeOrUpdate = uuid.equals("");
+        if (safeOrUpdate) {
             resume = new Resume(fulName);
-            storage.save(resume);
         } else {
             resume = storage.get(uuid);
             resume.setFullName(fulName);
@@ -47,7 +47,11 @@ public class ResumeServlet extends HttpServlet {
                 resume.getSections().remove(type);
             }
         }
-        storage.update(resume);
+        if (safeOrUpdate) {
+            storage.save(resume);
+        } else {
+            storage.update(resume);
+        }
         response.sendRedirect("resume");
     }
 
