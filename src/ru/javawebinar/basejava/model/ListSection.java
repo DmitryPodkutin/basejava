@@ -1,6 +1,7 @@
 package ru.javawebinar.basejava.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,8 +15,10 @@ public class ListSection extends Section {
         this.items = items;
     }
 
-    public ListSection() {
+    public ListSection(String[] items) {
+        this.items = (Arrays.asList(items));
     }
+
 
     public List<String> getItems() {
         return items;
@@ -36,8 +39,6 @@ public class ListSection extends Section {
 
     @Override
     public String toString() {
-        return "ListSection{" +
-                "items=" + items +
-                '}';
+        return items.toString() ;
     }
 }

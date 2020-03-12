@@ -41,10 +41,19 @@ public class ResumeServlet extends HttpServlet {
         }
         for (SectionType type : SectionType.values()) {
             String value = request.getParameter(type.name());
-            if (value != null && value.trim().length() != 0) {
-                resume.addSection(type, new DescriptionSection(value));
-            } else {
+            if (value == null || value.trim().length() == 0) {
                 resume.getSections().remove(type);
+            } else {
+                switch (type) {
+                    case OBJECTIVE:
+                    case PERSONAL:
+                        resume.addSection(type, new DescriptionSection(value));
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        resume.addSection(type, new ListSection(value.split("\n")));
+                        break;
+                }
             }
         }
         if (safeOrUpdate) {
