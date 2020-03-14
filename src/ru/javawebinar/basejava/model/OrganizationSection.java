@@ -9,6 +9,7 @@ import java.util.Objects;
 public class OrganizationSection extends Section {
     private static final long serialVersion = 1L;
     private List<Organization> organizations;
+    public static final OrganizationSection DUMMY = new OrganizationSection(Organization.DUMMY);
 
     public OrganizationSection(Organization... organizations) {
         this(Arrays.asList(organizations));

@@ -29,6 +29,8 @@
             </dl>
         </c:forEach>
         <c:forEach var="type" items="<%=SectionType.values()%>">
+            <c:set var="section" value="${resume.getSection(type)}"/>
+            <jsp:useBean id="section" type="ru.javawebinar.basejava.model.Section"/>
             <dl>
                 <dt>${type.title}</dt>
                 <c:choose>
@@ -41,8 +43,6 @@
                                value="${resume.getSection(type).getDescription()}">
                     </c:when>
                     <c:when test="${type=='ACHIEVEMENT'|| type=='QUALIFICATIONS'}">
-                        <c:set var="section" value="${resume.getSection(type)}"/>
-                        <jsp:useBean id="section" type="ru.javawebinar.basejava.model.Section"/>
                         <br><textarea rows="10" cols="110"
                                       name=${type}> <%=String.join("\n", ((ListSection) section).getItems())%></textarea>
                     </c:when>

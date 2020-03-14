@@ -18,6 +18,16 @@ public class Resume implements Comparable<Resume>, Serializable {
     private String fullName;
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+    public static final Resume DUMMY = new Resume();
+
+    static {
+        DUMMY.addSection(SectionType.OBJECTIVE, DescriptionSection.DUMMY);
+        DUMMY.addSection(SectionType.PERSONAL, DescriptionSection.DUMMY);
+        DUMMY.addSection(SectionType.ACHIEVEMENT, ListSection.DUMMY);
+        DUMMY.addSection(SectionType.QUALIFICATIONS, ListSection.DUMMY);
+        DUMMY.addSection(SectionType.EXPERIENCE, OrganizationSection.DUMMY);
+        DUMMY.addSection(SectionType.EDUCATION, OrganizationSection.DUMMY);
+    }
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);

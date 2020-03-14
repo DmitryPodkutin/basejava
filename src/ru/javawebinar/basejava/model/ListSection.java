@@ -2,6 +2,7 @@ package ru.javawebinar.basejava.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,6 +10,7 @@ import java.util.Objects;
 public class ListSection extends Section {
     private static final long serialVersion = 1L;
     private List<String> items;
+    public static final ListSection DUMMY = new ListSection(Collections.singletonList(""));
 
     public ListSection(List<String> items) {
         Objects.requireNonNull(items, "items must not be null");
@@ -18,7 +20,6 @@ public class ListSection extends Section {
     public ListSection(String[] items) {
         this.items = (Arrays.asList(items));
     }
-
 
     public List<String> getItems() {
         return items;

@@ -7,6 +7,7 @@ import java.util.Objects;
 public class DescriptionSection extends Section {
     private static final long serialVersion = 1L;
     private String description;
+    public static final DescriptionSection DUMMY = new DescriptionSection("");
 
     public DescriptionSection(String description) {
         Objects.requireNonNull(description, "description must not be null");

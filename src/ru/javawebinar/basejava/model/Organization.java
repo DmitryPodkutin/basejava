@@ -18,6 +18,7 @@ import java.util.Objects;
 public class Organization implements Serializable {
     private Link homepage;
     private List<Position> positions;
+    public static final Organization DUMMY = new Organization("","",Position.DUMMY);
 
     public Organization(String name, String url, Position... position) {
         this(new Link(name, url), Arrays.asList(position));
@@ -74,6 +75,7 @@ public class Organization implements Serializable {
         private LocalDate endDate;
         private String position;
         private String description;
+        public static final Position DUMMY = new Position();
 
         public Position(LocalDate beginDate, LocalDate endDate, String position, String description) {
             Objects.requireNonNull(beginDate, "beginDate must not be null");

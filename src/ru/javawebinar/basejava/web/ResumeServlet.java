@@ -40,6 +40,7 @@ public class ResumeServlet extends HttpServlet {
             }
         }
         for (SectionType type : SectionType.values()) {
+            Section section = resume.getSection(type);
             String value = request.getParameter(type.name());
             if (value == null || value.trim().length() == 0) {
                 resume.getSections().remove(type);
@@ -47,11 +48,15 @@ public class ResumeServlet extends HttpServlet {
                 switch (type) {
                     case OBJECTIVE:
                     case PERSONAL:
-                        resume.addSection(type, new DescriptionSection(value));
+                        if (section == null) {
+                            resume.addSection(type, new DescriptionSection(value));
+                        }
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        resume.addSection(type, new ListSection(value.split("\n")));
+                        if (section == null) {
+                            resume.addSection(type, new ListSection(value.split("\n")));
+                        }
                         break;
                 }
             }
@@ -81,16 +86,46 @@ public class ResumeServlet extends HttpServlet {
             case "view":
             case "edit":
                 resume = storage.get(uuid);
+                for (SectionType type : SectionType.values()) {
+                    Section section = resume.getSection(type);
+                    switch (type) {
+                        case OBJECTIVE:
+                        case PERSONAL:
+                            if (section == null) {
+                                section = DescriptionSection.DUMMY;
+                            }
+                            break;
+                        case ACHIEVEMENT:
+                        case QUALIFICATIONS:
+                            if (section == null) {
+                                section = ListSection.DUMMY;
+                            }
+                            break;
+                        case EXPERIENCE:
+                        case EDUCATION:
+                            if (section == null) {
+                                section = OrganizationSection.DUMMY;
+                            }
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + type);
+                    }
+                    resume.addSection(type, section);
+                }
                 break;
             case "add":
-                resume = new Resume();
+                resume = Resume.DUMMY;
                 break;
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");
         }
         request.setAttribute("resume", resume);
         request.getRequestDispatcher(
-                "view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp"
-        ).forward(request, response);
+                "view".
+
+                        equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp"
+        ).
+
+                forward(request, response);
     }
 }
