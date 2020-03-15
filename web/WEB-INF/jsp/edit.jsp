@@ -18,10 +18,10 @@
     <form method="post" action="resume" enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="uuid" value="${resume.uuid}">
         <dl>
-            <dt>Имя:</dt>
+            <b><dt>Имя:</dt></b>
             <dd><input type="text" name="fullName" size=50 value="${resume.fullName}"></dd>
         </dl>
-        <h3>Контакты:</h3>
+        <b>Контакты:</b>
         <c:forEach var="type" items="<%=ContactType.values()%>">
             <dl>
                 <dt>${type.title}</dt>
@@ -32,7 +32,7 @@
             <c:set var="section" value="${resume.getSection(type)}"/>
             <jsp:useBean id="section" type="ru.javawebinar.basejava.model.Section"/>
             <dl>
-                <dt>${type.title}</dt>
+            <b>${type.title}</b><br>
                 <c:choose>
                     <c:when test="${type=='OBJECTIVE'}">
                         <input type="text" name="${type}" size=80
@@ -43,12 +43,15 @@
                                value="${resume.getSection(type).getDescription()}">
                     </c:when>
                     <c:when test="${type=='ACHIEVEMENT'|| type=='QUALIFICATIONS'}">
-                        <br><textarea rows="10" cols="110"
+                        <textarea rows="10" cols="110"
                                       name=${type}> <%=String.join("\n", ((ListSection) section).getItems())%></textarea>
                     </c:when>
                 </c:choose>
             </dl>
         </c:forEach>
+        <input type="text" name="test" size=20 value="Name Org"><br>
+        <input type="text" name="test" size=20 value="Date"><br>
+        <textarea rows="10" cols="110" name="Text">Text </textarea>
         <hr>
         <button type="submit">Сохранить</button>
         <button onclick="window.history.back()">Отменить</button>
