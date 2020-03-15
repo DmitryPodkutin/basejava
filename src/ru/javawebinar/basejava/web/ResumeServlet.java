@@ -3,6 +3,7 @@ package ru.javawebinar.basejava.web;
 import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.storage.Storage;
+import util.DateUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
     private Storage storage = Config.get().getSqlStorage();
@@ -41,6 +44,7 @@ public class ResumeServlet extends HttpServlet {
         }
         for (SectionType type : SectionType.values()) {
             String value = request.getParameter(type.name());
+            String[] values =request.getParameterValues(type.name());
             if (value == null || value.trim().length() == 0) {
                 resume.getSections().remove(type);
             } else {
@@ -52,6 +56,14 @@ public class ResumeServlet extends HttpServlet {
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
                         resume.addSection(type, new ListSection(value.split("\n")));
+                        break;
+                    case EXPERIENCE:
+                        String[] urls = request.getParameterValues(type.name()+"url") ;
+                        List <Organization> org = new ArrayList();
+                        for (int i = 0; i <values.length ; i++) {
+                            org.add(new Organization(values[i],urls[i]));
+                        }
+                         resume.addSection(type,new OrganizationSection(org));
                         break;
                 }
             }

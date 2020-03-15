@@ -19,12 +19,11 @@ public class ResumeTestData extends Resume{
     public static final Resume RESUME_4;
 
     static {
-        RESUME_1 = new Resume(UUID_1, "Grigory Kislin");
+        RESUME_1 = new Resume(UUID_1, "Name1");
         RESUME_3 = new Resume(UUID_3, "Name3");
-        RESUME_2 = new Resume(UUID_2, "Dmitry Podkutin");
+        RESUME_2 = new Resume(UUID_2, "Name2");
         RESUME_4 = new Resume(UUID_4, "Name4");
-
-
+        
         RESUME_1.addContact(ContactType.MOBILE, "+7(921) 855-0482");
         RESUME_1.addContact(ContactType.SKYPE, "grigory.kislin");
         RESUME_1.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
