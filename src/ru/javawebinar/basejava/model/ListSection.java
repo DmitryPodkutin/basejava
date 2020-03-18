@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @XmlRootElement
 public class ListSection extends Section {
@@ -18,7 +19,10 @@ public class ListSection extends Section {
     }
 
     public ListSection(String[] items) {
-        this.items = (Arrays.asList(items));
+        List<String> list = Arrays.stream(items)
+                .filter(s -> s.trim().length()!=0)
+                .collect(Collectors.toList());
+        this.items = (list);
     }
 
     public List<String> getItems() {

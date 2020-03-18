@@ -55,7 +55,7 @@ public class ResumeServlet extends HttpServlet {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        resume.addSection(type, new ListSection(value.split("\\n")));
+                        resume.addSection(type, new ListSection(value.split("\r\n")));
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
