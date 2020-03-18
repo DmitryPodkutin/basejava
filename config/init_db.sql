@@ -1,4 +1,4 @@
-create table resume(
+create table resume (
   uuid      CHAR(36) PRIMARY KEY NOT NULL,
   full_name TEXT                 NOT NULL
 );
@@ -18,6 +18,6 @@ create table section(
 create unique index contact_uuid_type_index
   on contact (resume_uuid, type);
 
-create unique index "contact_uuid_type_index"
-	on contact (resume_uuid, type);
+create unique index "section_index"
+	on section (resume_uuid, type);
 
