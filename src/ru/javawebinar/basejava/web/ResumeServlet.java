@@ -44,7 +44,7 @@ public class ResumeServlet extends HttpServlet {
         }
         for (SectionType type : SectionType.values()) {
             String value = request.getParameter(type.name());
-            String[] values =request.getParameterValues(type.name());
+            String[] values = request.getParameterValues(type.name());
             if (value == null || value.trim().length() == 0) {
                 resume.getSections().remove(type);
             } else {
@@ -55,15 +55,25 @@ public class ResumeServlet extends HttpServlet {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        resume.addSection(type, new ListSection(value.split("\n")));
+                        resume.addSection(type, new ListSection(value.split("\\n")));
                         break;
                     case EXPERIENCE:
-                        String[] urls = request.getParameterValues(type.name()+"url") ;
-                        List <Organization> org = new ArrayList();
-                        for (int i = 0; i <values.length ; i++) {
-                            org.add(new Organization(values[i],urls[i]));
+                    case EDUCATION:
+                        String[] urls = request.getParameterValues(type.name() + "url");
+                        List<Organization> organizations = new ArrayList();
+                        for (int i = 0; i < values.length; i++) {
+                            List<Organization.Position> positions = new ArrayList<>();
+                            String counter = type.name() + i;
+                            String[] beginDate = request.getParameterValues(counter + "beginDate");
+                            String[] endDate = request.getParameterValues(counter + "endDate");
+                            String[] namePositions = request.getParameterValues(counter + "position");
+                            String[] descriptions = request.getParameterValues(counter + "description");
+                            for (int j = 0; j < namePositions.length; j++) {
+                                positions.add(new Organization.Position(DateUtil.parseDate(beginDate[j]), DateUtil.parseDate(endDate[j]), namePositions[j], descriptions[j]));
+                            }
+                            organizations.add(new Organization(new Link(values[i], urls[i]), positions));
                         }
-                         resume.addSection(type,new OrganizationSection(org));
+                        resume.addSection(type, new OrganizationSection(organizations));
                         break;
                 }
             }
@@ -91,6 +101,8 @@ public class ResumeServlet extends HttpServlet {
                 response.sendRedirect("resume");
                 return;
             case "view":
+                resume = storage.get(uuid);
+                break;
             case "edit":
                 resume = storage.get(uuid);
                 for (SectionType type : SectionType.values()) {
