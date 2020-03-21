@@ -1,11 +1,9 @@
 package ru.javawebinar.basejava.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @XmlRootElement
 public class ListSection extends Section {
@@ -16,13 +14,6 @@ public class ListSection extends Section {
     public ListSection(List<String> items) {
         Objects.requireNonNull(items, "items must not be null");
         this.items = items;
-    }
-
-    public ListSection(String[] items) {
-        List<String> list = Arrays.stream(items)
-                .filter(s -> s.trim().length()!=0)
-                .collect(Collectors.toList());
-        this.items = (list);
     }
 
     public List<String> getItems() {
@@ -44,6 +35,6 @@ public class ListSection extends Section {
 
     @Override
     public String toString() {
-        return items.toString() ;
+        return items.toString();
     }
 }

@@ -1,12 +1,17 @@
 package util;
 
 import ru.javawebinar.basejava.model.Link;
+import ru.javawebinar.basejava.model.Organization;
 
-import java.time.LocalDate;
+
 
 public class HtmlUtil {
-    public static String dateFormat(LocalDate date) {
-        return DateUtil.dateFormat(date);
+    public static boolean isEmpty(String str) {
+        return str == null || str.trim().isEmpty();
+    }
+
+    public static String dateFormat(Organization.Position position) {
+        return DateUtil.dateFormat(position.getBeginDate()) + "-" + DateUtil.dateFormat(position.getEndDate());
     }
 
     public static String urlFormat(Link homePage) {

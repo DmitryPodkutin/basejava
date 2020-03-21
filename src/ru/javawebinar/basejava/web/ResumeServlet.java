@@ -4,6 +4,7 @@ import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.storage.Storage;
 import util.DateUtil;
+import util.HtmlUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ResumeServlet extends HttpServlet {
     private Storage storage = Config.get().getSqlStorage();
@@ -29,7 +32,12 @@ public class ResumeServlet extends HttpServlet {
         final Resume resume;
         boolean safeOrUpdate = uuid.equals("");
         if (safeOrUpdate) {
-            resume = new Resume(fulName);
+            if (!fulName.trim().equals("")) {
+                resume = new Resume(fulName);
+            } else {
+                response.sendRedirect("resume");
+                return;
+            }
         } else {
             resume = storage.get(uuid);
             resume.setFullName(fulName);
@@ -55,23 +63,31 @@ public class ResumeServlet extends HttpServlet {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        resume.addSection(type, new ListSection(value.split("\r\n")));
+                        List<String> list = Arrays.stream(value.split("\r\n"))
+                                .filter(s -> !s.trim().isEmpty())
+                                .collect(Collectors.toList());
+                        resume.addSection(type, new ListSection(list));
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
                         String[] urls = request.getParameterValues(type.name() + "url");
-                        List<Organization> organizations = new ArrayList();
+                        List<Organization> organizations = new ArrayList<>();
                         for (int i = 0; i < values.length; i++) {
-                            List<Organization.Position> positions = new ArrayList<>();
-                            String counter = type.name() + i;
-                            String[] beginDate = request.getParameterValues(counter + "beginDate");
-                            String[] endDate = request.getParameterValues(counter + "endDate");
-                            String[] namePositions = request.getParameterValues(counter + "position");
-                            String[] descriptions = request.getParameterValues(counter + "description");
-                            for (int j = 0; j < namePositions.length; j++) {
-                                positions.add(new Organization.Position(DateUtil.parseDate(beginDate[j]), DateUtil.parseDate(endDate[j]), namePositions[j], descriptions[j]));
+                            String name = values[i];
+                            if (!HtmlUtil.isEmpty(name)) {
+                                List<Organization.Position> positions = new ArrayList<>();
+                                String counter = type.name() + i;
+                                String[] beginDate = request.getParameterValues(counter + "beginDate");
+                                String[] endDate = request.getParameterValues(counter + "endDate");
+                                String[] namePositions = request.getParameterValues(counter + "position");
+                                String[] descriptions = request.getParameterValues(counter + "description");
+                                for (int j = 0; j < namePositions.length; j++) {
+                                    if (!HtmlUtil.isEmpty(namePositions[j])) {
+                                        positions.add(new Organization.Position(DateUtil.parseDate(beginDate[j]), DateUtil.parseDate(endDate[j]), namePositions[j], descriptions[j]));
+                                    }
+                                }
+                                organizations.add(new Organization(new Link(name, urls[i]), positions));
                             }
-                            organizations.add(new Organization(new Link(values[i], urls[i]), positions));
                         }
                         resume.addSection(type, new OrganizationSection(organizations));
                         break;
@@ -122,12 +138,19 @@ public class ResumeServlet extends HttpServlet {
                             break;
                         case EXPERIENCE:
                         case EDUCATION:
-                            if (section == null) {
-                                section = OrganizationSection.DUMMY;
+                            OrganizationSection orgSection = (OrganizationSection) section;
+                            List<Organization> emptyFirstOrganizations = new ArrayList<>();
+                            emptyFirstOrganizations.add(Organization.DUMMY);
+                            if (orgSection != null) {
+                                for (Organization org : orgSection.getOrganizations()) {
+                                    List<Organization.Position> emptyFirstPositions = new ArrayList<>();
+                                    emptyFirstPositions.add(Organization.Position.DUMMY);
+                                    emptyFirstPositions.addAll(org.getPositions());
+                                    emptyFirstOrganizations.add(new Organization(org.getHomepage(), emptyFirstPositions));
+                                }
                             }
+                            section = new OrganizationSection(emptyFirstOrganizations);
                             break;
-                        default:
-                            throw new IllegalStateException("Unexpected value: " + type);
                     }
                     resume.addSection(type, section);
                 }
@@ -140,11 +163,6 @@ public class ResumeServlet extends HttpServlet {
         }
         request.setAttribute("resume", resume);
         request.getRequestDispatcher(
-                "view".
-
-                        equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp"
-        ).
-
-                forward(request, response);
+                "view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp").forward(request, response);
     }
 }

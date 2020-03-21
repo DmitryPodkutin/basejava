@@ -33,49 +33,55 @@
             </dl>
         </c:forEach>
         <c:forEach var="type" items="<%=SectionType.values()%>">
-            <c:set var="section" value="${resume.getSection(type)}"/>
-            <jsp:useBean id="section" type="ru.javawebinar.basejava.model.Section"/>
+        <c:set var="section" value="${resume.getSection(type)}"/>
+        <jsp:useBean id="section" type="ru.javawebinar.basejava.model.Section"/>
+        <dl>
+            <hr>
             <dl>
-                <hr>
+                <dt><b>${type.title}</b></dt>
+                <br>
                 <dl>
-                <dt><b>${type.title}</b></dt><br>
-                    <dl>
-                <c:choose>
-                    <c:when test="${type=='OBJECTIVE'}">
-                        <input type="text" name="${type}" size=80
-                               value="${section.getDescription()}">
-                    </c:when>
-                    <c:when test="${type=='PERSONAL'}">
-                        <input type="text" name="${type}" size=80
-                               value="${section.getDescription()}">
-                    </c:when>
-                    <c:when test="${type=='ACHIEVEMENT'|| type=='QUALIFICATIONS'}">
+                    <c:choose>
+                        <c:when test="${type=='OBJECTIVE'}">
+                            <input type="text" name="${type}" size=80
+                                   value="${section}">
+                        </c:when>
+                        <c:when test="${type=='PERSONAL'}">
+                            <input type="text" name="${type}" size=80
+                                   value="${section}">
+                        </c:when>
+                        <c:when test="${type=='ACHIEVEMENT'|| type=='QUALIFICATIONS'}">
                         <textarea rows="10" cols="110"
-                                  name=${type}> <%=String.join("\n", ((ListSection) section).getItems())%></textarea>
-                    </c:when>
-                    <c:when test="${type=='EXPERIENCE'|| type=='EDUCATION'}">
-                        <c:forEach var="org" items="<%=((OrganizationSection)section).getOrganizations()%>" varStatus="counter" >
-                            <input type="text" name="${type}" size=32 value="${org.homepage.name}"><input type="text"
-                                                                                                          name='${type}url'
-                                                                                                          size=50
-                                                                                                          value="${org.homepage.url}"><br>
-                            <c:forEach var="position" items="${org.positions}">
-                                <input type="text" name='${type}${counter.index}beginDate' size=15
-                                       value="${DateUtil.dateFormat(position.beginDate)}"><input type="text"
-                                                                                                 name='${type}${counter.index}endDate'
-                                                                                                 size=15
-                                                                                                 value="${DateUtil.dateFormat(position.endDate)}">
-                                <input type="text" name='${type}${counter.index}position' size=50 value="${position.position}"><br>
-                                <textarea rows="10" cols="110" name='${type}${counter.index}description'>${position.description}</textarea><br>
+                                  name=${type}><%=String.join("\n", ((ListSection) section).getItems())%></textarea>
+                        </c:when>
+                        <c:when test="${type=='EXPERIENCE'|| type=='EDUCATION'}">
+
+                            <c:forEach var="org" items="<%=((OrganizationSection)section).getOrganizations()%>"
+                                       varStatus="counter">
+                                <input type="text" name="${type}" size=32 value="${org.homepage.name}"
+                                       placeholder="Название организации">
+                                <input type="text" name='${type}url' size=50 value="${org.homepage.url}"
+                                       placeholder="Сайт организации URL"><br>
+
+                                <c:forEach var="position" items="${org.positions}">
+                                    <input type="text" name='${type}${counter.index}beginDate' size=15
+                                           value="${DateUtil.dateFormat(position.beginDate)}" placeholder="MM/yyyy">/
+                                    <input type="text" name='${type}${counter.index}endDate' size=15
+                                           value="${DateUtil.dateFormat(position.endDate)}" placeholder="MM/yyyy">
+                                    <input type="text" name='${type}${counter.index}position' size=50
+                                           value="${position.position}" placeholder="Занимаемая позиция"><br>
+                                    <textarea rows="10" cols="110"
+                                              name='${type}${counter.index}description'>${position.description}</textarea><br>
+                                </c:forEach>
+
                             </c:forEach>
-                        </c:forEach>
-                    </c:when>
-                </c:choose>
-            </dl>
-        </c:forEach>
-        <hr>
-        <button type="submit">Сохранить</button>
-        <button onclick="window.history.back()">Отменить</button>
+                        </c:when>
+                    </c:choose>
+                </dl>
+                </c:forEach>
+                <hr>
+                <button type="submit">Сохранить</button>
+                <button type="reset"  onclick="window.history.back()">Отменить</button>
     </form>
 </section>
 <jsp:include page="fragments/footer.jsp"/>

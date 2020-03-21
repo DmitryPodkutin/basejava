@@ -23,9 +23,7 @@ public class DescriptionSection extends Section {
 
     @Override
     public String toString() {
-        return "SectionDescription{" +
-                "description='" + description + '\'' +
-                '}';
+        return description;
     }
 
     @Override

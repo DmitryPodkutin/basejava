@@ -53,8 +53,7 @@
                             <td colspan="2">
                                 <ul>
                                     <c:forEach var="listSection" items="<%=((ListSection)value).getItems()%>">
-                                            <li>${listSection}</li
-                                       >
+                                            <li>${listSection}</li>
                                     </c:forEach>
                                 </ul>
                             </td>
@@ -71,7 +70,7 @@
                             <c:forEach var="position" items="${organization.positions}">
                                 <tr>
                                     <td width="15%"
-                                        style="vertical-align: top">${HtmlUtil.dateFormat(position.beginDate)}-${HtmlUtil.dateFormat(position.endDate)}</td>
+                                        style="vertical-align: top">${HtmlUtil.dateFormat(position)}</td>
                                     <td><b>${position.position}</b><br>
                                             ${position.description}
                                     </td>
@@ -83,6 +82,8 @@
             </c:if>
         </c:forEach>
     </table>
+    <hr>
+    <br><button style="height:30px;width:50px" onclick="window.history.back()">OK</button>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
